@@ -19,7 +19,7 @@ DeafHive is a single-page information and inclusion site for the Deaf community.
 
 ## How it's built
 
-- **One file** — `deafhive.html`. No framework, no build step.
+- **One file** — `index.html`. No framework, no build step.
 - **Static HTML, vanilla CSS, vanilla JS.** Custom CSS variables for the navy + yellow palette. `Raleway` from Google Fonts.
 - **Hex pattern background** — generated client-side as inline SVG (see the script at the bottom of the HTML).
 - **YouTube embeds** — privacy-respecting `youtube-nocookie.com` iframes.
@@ -30,14 +30,14 @@ DeafHive is a single-page information and inclusion site for the Deaf community.
 ```sh
 # from the repo root
 python3 -m http.server 8000
-# open http://localhost:8000/deafhive.html
+# open http://localhost:8000/
 ```
 
 That's it. No `npm install`, no build step.
 
 ## Editing content
 
-Everything lives in `deafhive.html`. Sections, in order:
+Everything lives in `index.html`. Sections, in order:
 
 1. **Nav** — sticky header with About / Directory / Events / Role Models
 2. **Hero** — Welcome video + tagline + CTAs

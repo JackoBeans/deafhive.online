@@ -28,7 +28,7 @@ If asked to rewrite copy, prefer:
 
 ## Tech stack
 
-- **Single file:** `deafhive.html`. Vanilla HTML, CSS, and JS — no framework, no build step.
+- **Single file:** `index.html`. Vanilla HTML, CSS, and JS — no framework, no build step.
 - **Fonts:** `Raleway` (400/600/700/800/900) from Google Fonts.
 - **Background:** SVG hex grid generated client-side at the bottom of the file. Re-renders on resize (debounced).
 - **YouTube embeds:** `youtube-nocookie.com` iframes with `loading="lazy"`.
@@ -40,16 +40,16 @@ Do not introduce a framework, a bundler, Tailwind, React, etc. without asking. T
 ## File / repo layout
 
 ```
-deafhive.html       ← the entire site (HTML, embedded CSS, embedded JS)
+index.html       ← the entire site (HTML, embedded CSS, embedded JS)
 README.md           ← public, on GitHub
 CLAUDE.md           ← this file
 .gitignore
 .claude/launch.json ← local dev preview config (gitignored)
 ```
 
-There are no other files. If a new asset is needed (image, font, etc.), put it next to `deafhive.html` and reference it relatively.
+There are no other files. If a new asset is needed (image, font, etc.), put it next to `index.html` and reference it relatively.
 
-## Sections in `deafhive.html` (in order)
+## Sections in `index.html` (in order)
 
 1. Sticky `<nav>` with logo + 4 links + mobile hamburger
 2. `#about` — Hero with **Welcome to DeafHive** video (`O6GA-gU7sTE`)
@@ -81,7 +81,7 @@ Bullets across the site use a 🐝 emoji as the marker (`content: "🐝"` in CSS
 
 ```sh
 python3 -m http.server 8000
-# open http://localhost:8000/deafhive.html
+# open http://localhost:8000/
 ```
 
 In a Claude Code session with the preview tools, use `preview_start` with the `deafhive` launch config (already in `.claude/launch.json`). It serves the folder on port 8000.
@@ -103,7 +103,7 @@ Until that's set up, the site only runs locally.
 
 ## Working rules for Claude Code
 
-1. **Edit `deafhive.html` directly.** No splitting into partials or build steps without asking.
+1. **Edit `index.html` directly.** No splitting into partials or build steps without asking.
 2. **Show the plan before writing.** Especially for layout-affecting CSS changes — a small change can shift the whole grid.
 3. **Verify in the preview.** This site is visual; type-checking and tests can't catch layout regressions.
 4. **Don't introduce new dependencies.** No CSS frameworks, no JS libraries, no bundlers.
