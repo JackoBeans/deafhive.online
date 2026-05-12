@@ -58,7 +58,7 @@ Planned: **Cloudflare Pages** connected to this repo, with `deafhive.online` as 
 
 ## Project status
 
-- ✅ Hero, What is, Why We Created, Help Us Build — BSL videos wired in
-- 🟡 Role Models grid — still placeholder thumbnails; awaiting individual videos
-- 🟡 Custom domain + Cloudflare Pages — not yet connected
-- 🟡 One unused video (`lalZkbr28n4` — second "Why we created DeafHive?") — pending decision on placement
+- ✅ All six BSL videos wired in (Welcome, What is, Why, What You Will Find, See It Believe It Be It, Help Us Build)
+- ✅ Click-to-play facades — pre-play YouTube clutter hidden
+- ✅ Live preview on GitHub Pages: https://jackobeans.github.io/deafhive.online/
+- 🟡 Custom domain `deafhive.online` — not yet pointed at a host

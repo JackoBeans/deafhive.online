@@ -484,18 +484,10 @@
     .archive-bullets strong { color: var(--text); }
 
     /* ── ROLE MODELS ── */
-    .role-models-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 16px;
+    .role-models-vid {
+      display: flex;
+      justify-content: center;
       margin-top: 28px;
-    }
-
-    .role-thumb {
-      width: 100%;
-      aspect-ratio: 16/10;
-      border-radius: 10px;
-      overflow: hidden;
     }
 
     .embed-frame {
@@ -633,7 +625,6 @@
       .hero-vid, .side-vid, .archive-vid { width: 100% !important; }
       .hero-text h1 { font-size: 2rem; }
       .find-grid { grid-template-columns: 1fr; }
-      .role-models-grid { grid-template-columns: repeat(2, 1fr); }
     }
   </style>
 </head>
@@ -672,8 +663,8 @@
         </div>
       </div>
       <div class="vid-box hero-vid">
-        <button class="video-facade" type="button" data-id="O6GA-gU7sTE" data-title="Welcome to DeafHive" aria-label="Play video: Welcome to DeafHive">
-          <img src="https://i.ytimg.com/vi/O6GA-gU7sTE/hqdefault.jpg" alt="" loading="lazy">
+        <button class="video-facade" type="button" data-id="_raNeUTdE6Q" data-title="Welcome to DeafHive" aria-label="Play video: Welcome to DeafHive">
+          <img src="https://i.ytimg.com/vi/_raNeUTdE6Q/hqdefault.jpg" alt="" loading="lazy">
           <span class="video-facade-play" aria-hidden="true">
             <svg viewBox="0 0 68 48" xmlns="http://www.w3.org/2000/svg">
               <path d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.63 3.26-5.42 6.19C.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z" fill="#212121" opacity="0.85"/>
@@ -688,8 +679,8 @@
     <div class="card">
       <div class="two-col">
         <div class="vid-box side-vid">
-          <button class="video-facade" type="button" data-id="4eaeEjOvA-s" data-title="What is DeafHive?" aria-label="Play video: What is DeafHive?">
-            <img src="https://i.ytimg.com/vi/4eaeEjOvA-s/hqdefault.jpg" alt="" loading="lazy">
+          <button class="video-facade" type="button" data-id="TAG5JM7zhTU" data-title="What is DeafHive?" aria-label="Play video: What is DeafHive?">
+            <img src="https://i.ytimg.com/vi/TAG5JM7zhTU/hqdefault.jpg" alt="" loading="lazy">
             <span class="video-facade-play" aria-hidden="true">
               <svg viewBox="0 0 68 48" xmlns="http://www.w3.org/2000/svg">
                 <path d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.63 3.26-5.42 6.19C.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z" fill="#212121" opacity="0.85"/>
@@ -722,8 +713,8 @@
           </ul>
         </div>
         <div class="vid-box side-vid">
-          <button class="video-facade" type="button" data-id="L7QNERSAveA" data-title="Why we created DeafHive?" aria-label="Play video: Why we created DeafHive?">
-            <img src="https://i.ytimg.com/vi/L7QNERSAveA/hqdefault.jpg" alt="" loading="lazy">
+          <button class="video-facade" type="button" data-id="c29KSuD2iQc" data-title="Why we created DeafHive?" aria-label="Play video: Why we created DeafHive?">
+            <img src="https://i.ytimg.com/vi/c29KSuD2iQc/hqdefault.jpg" alt="" loading="lazy">
             <span class="video-facade-play" aria-hidden="true">
               <svg viewBox="0 0 68 48" xmlns="http://www.w3.org/2000/svg">
                 <path d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.63 3.26-5.42 6.19C.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z" fill="#212121" opacity="0.85"/>
@@ -739,15 +730,15 @@
     <div class="card" id="directory">
       <div class="two-col">
         <div class="vid-box side-vid">
-          <svg viewBox="0 0 300 200" width="300" height="200" xmlns="http://www.w3.org/2000/svg">
-            <rect width="300" height="200" fill="#2a2a2a"/>
-            <ellipse cx="150" cy="65" rx="26" ry="28" fill="#555"/>
-            <path d="M112 175 Q122 115 150 110 Q178 115 188 175 Z" fill="#555"/>
-            <path d="M112 142 Q78 118 72 95" stroke="#555" stroke-width="14" stroke-linecap="round" fill="none"/>
-            <path d="M188 142 Q222 118 228 95" stroke="#555" stroke-width="14" stroke-linecap="round" fill="none"/>
-            <ellipse cx="70" cy="92" rx="12" ry="9" fill="#555"/>
-            <ellipse cx="230" cy="92" rx="12" ry="9" fill="#555"/>
-          </svg>
+          <button class="video-facade" type="button" data-id="IcThM_Jx8bY" data-title="What you will find on DeafHive?" aria-label="Play video: What you will find on DeafHive?">
+            <img src="https://i.ytimg.com/vi/IcThM_Jx8bY/hqdefault.jpg" alt="" loading="lazy">
+            <span class="video-facade-play" aria-hidden="true">
+              <svg viewBox="0 0 68 48" xmlns="http://www.w3.org/2000/svg">
+                <path d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.63 3.26-5.42 6.19C.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z" fill="#212121" opacity="0.85"/>
+                <path d="M27 34V14l18 10-18 10z" fill="#fff"/>
+              </svg>
+            </span>
+          </button>
         </div>
         <div class="col-text">
           <h2 class="sec-title">What You Will Find on DeafHive</h2>
@@ -794,51 +785,17 @@
       <p class="sec-sub-center mb-6">DeafHive shares stories of Deaf people making a difference, including teachers, artists, business owners and community leaders.</p>
       <p class="sec-sub-center">Explore interviews, career journeys, and personal stories in BSL.</p>
 
-      <div class="role-models-grid">
-        <!-- 4 video thumbnails -->
-        <div class="vid-box role-thumb">
-          <svg viewBox="0 0 220 140" width="100%" height="100%" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
-            <rect width="220" height="140" fill="#2a2a2a"/>
-            <ellipse cx="110" cy="48" rx="20" ry="22" fill="#555"/>
-            <path d="M82 128 Q90 82 110 78 Q130 82 138 128 Z" fill="#555"/>
-            <path d="M82 105 Q60 90 58 74" stroke="#555" stroke-width="12" stroke-linecap="round" fill="none"/>
-            <path d="M138 105 Q160 90 162 74" stroke="#555" stroke-width="12" stroke-linecap="round" fill="none"/>
-            <ellipse cx="56" cy="71" rx="10" ry="8" fill="#555"/>
-            <ellipse cx="164" cy="71" rx="10" ry="8" fill="#555"/>
-          </svg>
-        </div>
-        <div class="vid-box role-thumb">
-          <svg viewBox="0 0 220 140" width="100%" height="100%" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
-            <rect width="220" height="140" fill="#333"/>
-            <ellipse cx="110" cy="48" rx="20" ry="22" fill="#555"/>
-            <path d="M82 128 Q90 82 110 78 Q130 82 138 128 Z" fill="#555"/>
-            <path d="M82 108 Q56 88 54 70" stroke="#555" stroke-width="12" stroke-linecap="round" fill="none"/>
-            <path d="M138 108 Q164 88 166 70" stroke="#555" stroke-width="12" stroke-linecap="round" fill="none"/>
-            <ellipse cx="52" cy="67" rx="10" ry="8" fill="#555"/>
-            <ellipse cx="168" cy="67" rx="10" ry="8" fill="#555"/>
-          </svg>
-        </div>
-        <div class="vid-box role-thumb">
-          <svg viewBox="0 0 220 140" width="100%" height="100%" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
-            <rect width="220" height="140" fill="#2a2a2a"/>
-            <ellipse cx="110" cy="48" rx="20" ry="22" fill="#555"/>
-            <path d="M82 128 Q90 82 110 78 Q130 82 138 128 Z" fill="#555"/>
-            <path d="M82 106 Q60 84 62 66" stroke="#555" stroke-width="12" stroke-linecap="round" fill="none"/>
-            <path d="M138 106 Q160 84 158 66" stroke="#555" stroke-width="12" stroke-linecap="round" fill="none"/>
-            <ellipse cx="62" cy="63" rx="10" ry="8" fill="#555"/>
-            <ellipse cx="158" cy="63" rx="10" ry="8" fill="#555"/>
-          </svg>
-        </div>
-        <div class="vid-box role-thumb">
-          <svg viewBox="0 0 220 140" width="100%" height="100%" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
-            <rect width="220" height="140" fill="#333"/>
-            <ellipse cx="110" cy="48" rx="20" ry="22" fill="#555"/>
-            <path d="M82 128 Q90 82 110 78 Q130 82 138 128 Z" fill="#555"/>
-            <path d="M82 110 Q54 92 50 72" stroke="#555" stroke-width="12" stroke-linecap="round" fill="none"/>
-            <path d="M138 110 Q166 92 170 72" stroke="#555" stroke-width="12" stroke-linecap="round" fill="none"/>
-            <ellipse cx="48" cy="69" rx="10" ry="8" fill="#555"/>
-            <ellipse cx="172" cy="69" rx="10" ry="8" fill="#555"/>
-          </svg>
+      <div class="role-models-vid">
+        <div class="vid-box side-vid">
+          <button class="video-facade" type="button" data-id="G2zSuR0IxWA" data-title="See It. Believe It. Be It." aria-label="Play video: See It. Believe It. Be It.">
+            <img src="https://i.ytimg.com/vi/G2zSuR0IxWA/hqdefault.jpg" alt="" loading="lazy">
+            <span class="video-facade-play" aria-hidden="true">
+              <svg viewBox="0 0 68 48" xmlns="http://www.w3.org/2000/svg">
+                <path d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.63 3.26-5.42 6.19C.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z" fill="#212121" opacity="0.85"/>
+                <path d="M27 34V14l18 10-18 10z" fill="#fff"/>
+              </svg>
+            </span>
+          </button>
         </div>
       </div>
     </div>
@@ -858,8 +815,8 @@
           </ul>
         </div>
         <div class="vid-box side-vid">
-          <button class="video-facade" type="button" data-id="cIcq6oBE46s" data-title="Help Us Build DeafHive" aria-label="Play video: Help Us Build DeafHive">
-            <img src="https://i.ytimg.com/vi/cIcq6oBE46s/hqdefault.jpg" alt="" loading="lazy">
+          <button class="video-facade" type="button" data-id="rBCV5m3_C9U" data-title="Help Us Build DeafHive" aria-label="Play video: Help Us Build DeafHive">
+            <img src="https://i.ytimg.com/vi/rBCV5m3_C9U/hqdefault.jpg" alt="" loading="lazy">
             <span class="video-facade-play" aria-hidden="true">
               <svg viewBox="0 0 68 48" xmlns="http://www.w3.org/2000/svg">
                 <path d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.63 3.26-5.42 6.19C.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z" fill="#212121" opacity="0.85"/>

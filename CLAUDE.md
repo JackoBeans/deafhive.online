@@ -52,15 +52,17 @@ There are no other files. If a new asset is needed (image, font, etc.), put it n
 ## Sections in `index.html` (in order)
 
 1. Sticky `<nav>` with logo + 4 links + mobile hamburger
-2. `#about` — Hero with **Welcome to DeafHive** video (`O6GA-gU7sTE`)
-3. **What is DeafHive?** — three bullets + video (`4eaeEjOvA-s`)
-4. **Why We Created DeafHive?** — three bullets + video (`L7QNERSAveA`)
-5. **What You Will Find on DeafHive** — four categories (no video)
+2. `#about` — Hero with **Welcome to DeafHive** video (`_raNeUTdE6Q`)
+3. **What is DeafHive?** — three bullets + video (`TAG5JM7zhTU`)
+4. **Why We Created DeafHive?** — three bullets + video (`c29KSuD2iQc`)
+5. **What You Will Find on DeafHive** — four categories + video (`IcThM_Jx8bY`)
 6. `#directory-embed` — **Community Directory** Softr iframe
 7. `#events` — **BSL Events & Community Video Archive** Softr iframe
-8. `#role-models` — **See It. Believe It. Be It.** — placeholder grid (4 SVG thumbs)
-9. **Help Us Build DeafHive** — invitation + video (`cIcq6oBE46s`)
+8. `#role-models` — **See It. Believe It. Be It.** — single centred video (`G2zSuR0IxWA`)
+9. **Help Us Build DeafHive** — invitation + video (`rBCV5m3_C9U`)
 10. Footer
+
+All YouTube videos use the **facade pattern**: a `<button class="video-facade" data-id="...">` with a YouTube `hqdefault.jpg` thumbnail and play-button overlay. A delegated click handler at the bottom of the inline `<script>` swaps the facade for an autoplay iframe on click. This hides YouTube's pre-play title/avatar/Watch-on-YouTube clutter.
 
 Bullets across the site use a plain `•` (navy, bold) — set via three `::before` rules: `.bullet-list li`, `.find-item`, `.archive-bullets li`. Keep them consistent if you add new lists.
 
@@ -94,9 +96,7 @@ Until that's set up, the site only runs locally.
 
 ## Open items / things to remember
 
-- **Role Models grid** is still 4 SVG-placeholder thumbnails. Real individual videos pending. Do not ship the SVGs as if they were real content — flag this if it comes up during deploy prep.
-- **Unused video:** `lalZkbr28n4` ("Why we created DeafHive?") has the same title as `L7QNERSAveA`. Currently `L7QNERSAveA` is used in the "Why We Created" section. Mark to decide where (if anywhere) the second one goes.
-- **Custom domain:** registered but not pointed at a host yet.
+- **Custom domain:** registered but not pointed at a host yet. Site is live on GitHub Pages at `https://jackobeans.github.io/deafhive.online/`.
 - **Footer links** (`Terms & Support`, `Privacy Policy`) are placeholder `href="#"`. No legal pages exist yet.
 - **Hero CTAs** (`Explore DeafHive`, `Get Involved`) are placeholder `href="#"`. Targets undecided.
 - **`#directory` anchor** is on the "What You Will Find" card; the nav points to `#directory-embed` (the actual iframe card). Likely fine, but worth noting if reorganising IDs.
