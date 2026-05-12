@@ -1,0 +1,937 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DeafHive</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;600;700;800;900&amp;display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:     #2852b7;
+      --navy-dk:  #1f46aa;
+      --blue-mid: #3f66c4;
+      --hex-line: rgba(123, 153, 224, 0.34);
+      --yellow:   #f5c842;
+      --yellow-dk:#d4a800;
+      --white:    #ffffff;
+      --text:     #1a2f6e;
+      --body:     #333;
+    }
+
+    body {
+      font-family: 'Raleway', sans-serif;
+      background-color: var(--navy);
+      color: var(--body);
+      overflow-x: hidden;
+      scroll-behavior: smooth;
+    }
+
+
+    /* ── Slanted hex background layer ── */
+    #hex-layer {
+      position: fixed;
+      inset: -12vmax;
+      overflow: hidden;
+      transform: rotate(-8deg) scale(1.08);
+      transform-origin: center;
+      pointer-events: none;
+    }
+
+    #hex-layer {
+      z-index: -1;
+    }
+
+    #hex-layer svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    #hex-layer polygon {
+      fill: none;
+      stroke: var(--hex-line);
+      stroke-width: 2.2;
+      stroke-linejoin: round;
+      vector-effect: non-scaling-stroke;
+    }
+
+    /* ── Hex background ── */
+    .hex-bg {
+      background-color: var(--navy);
+    }
+
+    /* ── NAV ── */
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: min(1200px, calc(100% - 48px));
+      margin: 14px auto 0;
+      padding: 12px 18px;
+      position: sticky;
+      top: 14px;
+      z-index: 200;
+      background: rgba(255, 255, 255, 0.98);
+      border: 1px solid rgba(28, 45, 96, 0.12);
+      border-radius: 22px;
+      box-shadow: 0 12px 32px rgba(18, 34, 84, 0.10);
+    }
+
+    .logo {
+      font-size: 1.9rem;
+      font-weight: 800;
+      color: var(--text);
+      letter-spacing: -0.5px;
+      text-decoration: none;
+      position: relative;
+      z-index: 1;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 12px;
+      list-style: none;
+      position: relative;
+      z-index: 1;
+    }
+
+    .nav-toggle {
+      display: none;
+      width: 48px;
+      height: 48px;
+      padding: 0;
+      border: 1.5px solid rgba(28, 45, 96, 0.22);
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.98);
+      color: var(--text);
+      cursor: pointer;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .nav-toggle-bar {
+      display: block;
+      width: 20px;
+      height: 2px;
+      background: currentColor;
+      border-radius: 999px;
+      transition: transform 0.2s ease, opacity 0.2s ease;
+    }
+
+    .nav-toggle-icon {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .nav-links a {
+      display: block;
+      padding: 8px 20px;
+      border: 1.5px solid rgba(28, 45, 96, 0.32);
+      border-radius: 999px;
+      color: var(--text);
+      text-decoration: none;
+      font-size: 0.92rem;
+      font-weight: 600;
+      background: rgba(255, 255, 255, 0.78);
+      transition: background 0.2s, color 0.2s, border-color 0.2s;
+    }
+
+    .nav-links a:hover {
+      border-color: rgba(28, 45, 96, 0.48);
+      background: var(--navy);
+      color: var(--white);
+    }
+
+    /* ── CARD ── */
+    .card {
+      background: var(--white);
+      border: none;
+      border-radius: 20px;
+      padding: 48px;
+      box-shadow: none;
+      max-width: 1200px;
+      margin: 0 auto 32px;
+    }
+
+    /* ── WRAPPER ── */
+    .page-wrap {
+      position: relative;
+      z-index: 1;
+      padding: 40px 24px 0;
+    }
+
+    .page-wrap--flush-top {
+      padding-top: 0;
+    }
+
+    .archive-section,
+    footer {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ── VIDEO PLACEHOLDER ── */
+    .vid-box {
+      background: #2a2a2a;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    .vid-box svg { opacity: 0.7; }
+
+    /* BSL silhouette SVG */
+    .bsl-person {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* ── HERO ── */
+    .hero-card {
+      display: flex;
+      align-items: center;
+      gap: 40px;
+    }
+
+    .hero-text { flex: 1; }
+
+    .hero-text h1 {
+      font-size: 2.8rem;
+      font-weight: 900;
+      color: var(--text);
+      line-height: 1.15;
+      margin-bottom: 12px;
+    }
+
+    .hero-text .tagline {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 14px;
+    }
+
+    .hero-text p {
+      font-size: 0.97rem;
+      color: #444;
+      line-height: 1.6;
+      margin-bottom: 28px;
+    }
+
+    .hero-btns { display: flex; gap: 14px; flex-wrap: wrap; }
+
+    .btn-yellow {
+      background: var(--yellow);
+      color: #1a1a1a;
+      border: none;
+      padding: 12px 28px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 0.97rem;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      transition: background 0.2s;
+    }
+
+    .btn-yellow:hover { background: var(--yellow-dk); }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--text);
+      border: 2px solid var(--text);
+      padding: 12px 28px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 0.97rem;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .btn-outline:hover { background: var(--text); color: var(--white); }
+
+    .hero-vid {
+      width: 340px;
+      height: 220px;
+    }
+
+    /* ── SECTION HEADINGS ── */
+    h2.sec-title {
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+
+    h2.sec-title-center {
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: var(--text);
+      text-align: center;
+      margin-bottom: 8px;
+    }
+
+    p.sec-sub {
+      font-size: 0.97rem;
+      color: #444;
+      line-height: 1.6;
+    }
+
+    p.sec-sub-center {
+      font-size: 0.97rem;
+      color: #444;
+      line-height: 1.6;
+      text-align: center;
+    }
+
+    /* ── BULLET LIST ── */
+    .bullet-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .bullet-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 0.97rem;
+      color: #333;
+      line-height: 1.5;
+    }
+
+    .bullet-list li::before {
+      content: "🐝";
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .bullet-list li strong { color: var(--text); }
+
+    /* ── TWO-COL LAYOUT ── */
+    .two-col {
+      display: flex;
+      align-items: center;
+      gap: 40px;
+    }
+
+    .two-col .col-text { flex: 1; }
+    .two-col .col-vid  { flex-shrink: 0; }
+
+    .side-vid {
+      width: 300px;
+      height: 200px;
+    }
+
+    /* ── WHAT YOU FIND ── */
+    .find-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-top: 20px;
+    }
+
+    .find-grid--stacked {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .find-item {
+      background: #f5f7fc;
+      border-radius: 10px;
+      padding: 16px 18px;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 0.93rem;
+      color: #333;
+      line-height: 1.5;
+    }
+
+    .find-item::before { content: "🐝"; flex-shrink: 0; margin-top: 1px; }
+    .find-item strong  { color: var(--text); display: block; margin-bottom: 2px; }
+
+    /* ── BSL EVENTS SECTION ── */
+    .archive-section {
+      position: relative;
+      z-index: 1;
+      padding: 0 24px;
+    }
+
+    .archive-card {
+      display: flex;
+      align-items: center;
+      gap: 40px;
+    }
+
+    .archive-copy {
+      flex: 1;
+    }
+
+    .archive-vid {
+      width: 440px;
+      height: 260px;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .archive-bullets {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 16px;
+      text-align: left;
+    }
+
+    .archive-bullets li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 0.97rem;
+      line-height: 1.5;
+      color: #333;
+    }
+
+    .archive-bullets li::before { content: "🐝"; flex-shrink: 0; }
+    .archive-bullets strong { color: var(--text); }
+
+    /* ── ROLE MODELS ── */
+    .role-models-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-top: 28px;
+    }
+
+    .role-thumb {
+      width: 100%;
+      aspect-ratio: 16/10;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .embed-frame {
+      width: 100%;
+      height: 1000px;
+      border: none;
+      display: block;
+    }
+
+    .mx-auto {
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .mb-24 { margin-bottom: 24px; }
+    .mb-18 { margin-bottom: 18px; }
+    .mb-16 { margin-bottom: 16px; }
+    .mb-8 { margin-bottom: 8px; }
+    .mb-6 { margin-bottom: 6px; }
+
+    .font-bold {
+      font-weight: 700;
+    }
+
+    .footer-meta {
+      color: rgba(255,255,255,0.5);
+      font-size: 0.82rem;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 28px 40px;
+      text-align: center;
+    }
+
+    @media (min-width: 1024px) {
+      .card {
+        max-width: 1140px;
+      }
+
+      nav {
+        width: min(1140px, calc(100% - 80px));
+      }
+
+      .page-wrap {
+        padding-left: 40px;
+        padding-right: 40px;
+      }
+
+      .archive-section {
+        padding-left: 40px;
+        padding-right: 40px;
+      }
+
+      footer {
+        padding-left: 40px;
+        padding-right: 40px;
+      }
+    }
+
+    .footer-tagline {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--white);
+      margin-bottom: 20px;
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1200px;
+      margin: 0 auto;
+      font-size: 0.88rem;
+      color: rgba(255,255,255,0.7);
+    }
+
+    .footer-links a {
+      color: rgba(255,255,255,0.7);
+      text-decoration: none;
+      margin-right: 20px;
+    }
+
+    .footer-links a:hover { color: var(--white); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      nav {
+        width: calc(100% - 40px);
+        padding: 14px 18px;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 12px;
+      }
+
+      .nav-toggle {
+        display: inline-flex;
+      }
+
+      .nav-links {
+        display: none;
+        width: 100%;
+        flex-direction: column;
+        gap: 10px;
+        padding-top: 4px;
+      }
+
+      nav.is-open .nav-links {
+        display: flex;
+      }
+
+      .nav-links li,
+      .nav-links a {
+        width: 100%;
+      }
+
+      .nav-links a {
+        text-align: center;
+      }
+
+      nav.is-open .nav-toggle-bar:nth-child(1) {
+        transform: translateY(6px) rotate(45deg);
+      }
+
+      nav.is-open .nav-toggle-bar:nth-child(2) {
+        opacity: 0;
+      }
+
+      nav.is-open .nav-toggle-bar:nth-child(3) {
+        transform: translateY(-6px) rotate(-45deg);
+      }
+
+      .card { padding: 28px 20px; }
+      .hero-card, .two-col, .archive-card { flex-direction: column; }
+      .hero-vid, .side-vid, .archive-vid { width: 100% !important; }
+      .hero-text h1 { font-size: 2rem; }
+      .find-grid { grid-template-columns: 1fr; }
+      .role-models-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+  <body class="hex-bg">
+  <div id="hex-layer"></div>
+
+  <!-- NAV -->
+  <nav id="site-nav">
+    <a class="logo" href="#">DeafHive</a>
+    <button class="nav-toggle" id="nav-toggle" type="button" aria-expanded="false" aria-controls="site-menu" aria-label="Open navigation menu">
+      <span class="nav-toggle-icon" aria-hidden="true">
+        <span class="nav-toggle-bar"></span>
+        <span class="nav-toggle-bar"></span>
+        <span class="nav-toggle-bar"></span>
+      </span>
+    </button>
+    <ul class="nav-links" id="site-menu">
+      <li><a href="#about" data-scroll-target="#about">About</a></li>
+      <li><a href="#directory-embed" data-scroll-target="#directory-embed">Directory</a></li>
+      <li><a href="#events" data-scroll-target="#events">Events</a></li>
+      <li><a href="#role-models" data-scroll-target="#role-models">Role Models</a></li>
+    </ul>
+  </nav>
+
+  <div class="page-wrap">
+
+    <!-- HERO -->
+    <div class="card hero-card" id="about">
+      <div class="hero-text">
+        <h1>Welcome to<br>DeafHive</h1>
+        <p class="tagline">Information. Inspiration. Inclusion</p>
+        <p>A central online space for the Deaf community, bringing together everything from local events to life-changing support.</p>
+        <div class="hero-btns">
+          <a href="#" class="btn-yellow">Explore DeafHive</a>
+          <a href="#" class="btn-outline">Get Involved</a>
+        </div>
+      </div>
+      <div class="vid-box hero-vid">
+        <svg viewBox="0 0 340 220" width="340" height="220" xmlns="http://www.w3.org/2000/svg">
+          <rect width="340" height="220" fill="#2a2a2a"/>
+          <!-- BSL signer silhouette -->
+          <ellipse cx="170" cy="70" rx="28" ry="32" fill="#555"/>
+          <path d="M130 180 Q140 120 170 115 Q200 120 210 180 Z" fill="#555"/>
+          <!-- arms in sign language position -->
+          <path d="M130 150 Q100 130 95 110" stroke="#555" stroke-width="16" stroke-linecap="round" fill="none"/>
+          <path d="M210 150 Q240 135 250 115" stroke="#555" stroke-width="16" stroke-linecap="round" fill="none"/>
+          <!-- hands -->
+          <ellipse cx="93" cy="107" rx="14" ry="10" fill="#555"/>
+          <ellipse cx="252" cy="112" rx="14" ry="10" fill="#555"/>
+        </svg>
+      </div>
+    </div>
+
+    <!-- WHAT IS DEAFHIVE -->
+    <div class="card">
+      <div class="two-col">
+        <div class="vid-box side-vid">
+          <svg viewBox="0 0 300 200" width="300" height="200" xmlns="http://www.w3.org/2000/svg">
+            <rect width="300" height="200" fill="#2a2a2a"/>
+            <ellipse cx="150" cy="65" rx="26" ry="28" fill="#555"/>
+            <path d="M112 175 Q122 115 150 110 Q178 115 188 175 Z" fill="#555"/>
+            <path d="M112 140 Q82 120 78 100" stroke="#555" stroke-width="14" stroke-linecap="round" fill="none"/>
+            <path d="M188 140 Q218 125 222 105" stroke="#555" stroke-width="14" stroke-linecap="round" fill="none"/>
+            <ellipse cx="76" cy="97" rx="12" ry="9" fill="#555"/>
+            <ellipse cx="224" cy="102" rx="12" ry="9" fill="#555"/>
+          </svg>
+        </div>
+        <div class="col-text">
+          <h2 class="sec-title">What is DeafHive?</h2>
+          <ul class="bullet-list">
+            <li>A place to connect</li>
+            <li>A place to learn</li>
+            <li>A place to belong</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- WHY WE CREATED -->
+    <div class="card">
+      <div class="two-col">
+        <div class="col-text">
+          <h2 class="sec-title">Why We Created DeafHive?</h2>
+          <p class="sec-sub mb-16">Having access is important, but feeling part of the deaf community matters too.</p>
+          <ul class="bullet-list">
+            <li>Many events have interpreters booked, but deaf people don't always attend because they did not know about the event.</li>
+            <li>Finding BSL-friendly services, courses, and community groups can be difficult and time-consuming.</li>
+            <li>Deaf role models and success stories are rarely visible — we want to change that.</li>
+          </ul>
+        </div>
+        <div class="vid-box side-vid">
+          <svg viewBox="0 0 300 200" width="300" height="200" xmlns="http://www.w3.org/2000/svg">
+            <rect width="300" height="200" fill="#2a2a2a"/>
+            <ellipse cx="150" cy="62" rx="26" ry="28" fill="#555"/>
+            <path d="M112 172 Q122 112 150 107 Q178 112 188 172 Z" fill="#555"/>
+            <path d="M112 138 Q88 110 90 90" stroke="#555" stroke-width="14" stroke-linecap="round" fill="none"/>
+            <path d="M188 138 Q212 110 210 90" stroke="#555" stroke-width="14" stroke-linecap="round" fill="none"/>
+            <ellipse cx="90" cy="87" rx="12" ry="9" fill="#555"/>
+            <ellipse cx="210" cy="87" rx="12" ry="9" fill="#555"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- WHAT YOU WILL FIND -->
+    <div class="card" id="directory">
+      <div class="two-col">
+        <div class="vid-box side-vid">
+          <svg viewBox="0 0 300 200" width="300" height="200" xmlns="http://www.w3.org/2000/svg">
+            <rect width="300" height="200" fill="#2a2a2a"/>
+            <ellipse cx="150" cy="65" rx="26" ry="28" fill="#555"/>
+            <path d="M112 175 Q122 115 150 110 Q178 115 188 175 Z" fill="#555"/>
+            <path d="M112 142 Q78 118 72 95" stroke="#555" stroke-width="14" stroke-linecap="round" fill="none"/>
+            <path d="M188 142 Q222 118 228 95" stroke="#555" stroke-width="14" stroke-linecap="round" fill="none"/>
+            <ellipse cx="70" cy="92" rx="12" ry="9" fill="#555"/>
+            <ellipse cx="230" cy="92" rx="12" ry="9" fill="#555"/>
+          </svg>
+        </div>
+        <div class="col-text">
+          <h2 class="sec-title">What You Will Find on DeafHive</h2>
+          <div class="find-grid find-grid--stacked">
+            <div class="find-item">
+              <span><strong>Community &amp; Support</strong> – Find deaf groups, local and online events, and activities.</span>
+            </div>
+            <div class="find-item">
+              <span><strong>Learning &amp; Careers</strong> – Discover training, education and job opportunities.</span>
+            </div>
+            <div class="find-item">
+              <span><strong>Stories and BSL</strong> – Read and watch stories from the Deaf community and stay informed about Deaf issues.</span>
+            </div>
+            <div class="find-item">
+              <span><strong>Services and Help</strong> – Find important services and support for the Deaf community.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- COMMUNITY DIRECTORY -->
+    <div class="card" id="directory-embed">
+      <h2 class="sec-title mb-24">DeafHive Community Directory</h2>
+      <iframe class="embed-frame" src="https://leola31663.softr.app/ai-block/share/5338c0ab-9af7-4b06-ba47-e74ee5a0544b/fe96f9de-0fed-4be8-a3c6-4ef6a5d57dc2" width="100%" height="1000" frameborder="0"></iframe>
+    </div>
+
+  </div><!-- /page-wrap -->
+
+  <!-- BSL EVENTS ARCHIVE -->
+  <div class="archive-section">
+    <div class="card" id="events">
+      <h2 class="sec-title mb-24">BSL Events &amp; Community Video Archive</h2>
+      <iframe class="embed-frame" src="https://leola31663.softr.app/ai-block/share/5338c0ab-9af7-4b06-ba47-e74ee5a0544b/ddd453cd-54f8-4a29-ac35-f7e6ace97161" width="100%" height="1000" frameborder="0"></iframe>
+    </div>
+  </div>
+
+  <div class="page-wrap page-wrap--flush-top">
+
+    <!-- ROLE MODELS -->
+    <div class="card" id="role-models">
+      <h2 class="sec-title-center">See It. Believe It. Be It.</h2>
+      <p class="sec-sub-center font-bold mb-8">Celebrating Deaf role models</p>
+      <p class="sec-sub-center mb-6">DeafHive shares stories of Deaf people making a difference, including teachers, artists, business owners and community leaders.</p>
+      <p class="sec-sub-center">Explore interviews, career journeys, and personal stories in BSL.</p>
+
+      <div class="role-models-grid">
+        <!-- 4 video thumbnails -->
+        <div class="vid-box role-thumb">
+          <svg viewBox="0 0 220 140" width="100%" height="100%" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+            <rect width="220" height="140" fill="#2a2a2a"/>
+            <ellipse cx="110" cy="48" rx="20" ry="22" fill="#555"/>
+            <path d="M82 128 Q90 82 110 78 Q130 82 138 128 Z" fill="#555"/>
+            <path d="M82 105 Q60 90 58 74" stroke="#555" stroke-width="12" stroke-linecap="round" fill="none"/>
+            <path d="M138 105 Q160 90 162 74" stroke="#555" stroke-width="12" stroke-linecap="round" fill="none"/>
+            <ellipse cx="56" cy="71" rx="10" ry="8" fill="#555"/>
+            <ellipse cx="164" cy="71" rx="10" ry="8" fill="#555"/>
+          </svg>
+        </div>
+        <div class="vid-box role-thumb">
+          <svg viewBox="0 0 220 140" width="100%" height="100%" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+            <rect width="220" height="140" fill="#333"/>
+            <ellipse cx="110" cy="48" rx="20" ry="22" fill="#555"/>
+            <path d="M82 128 Q90 82 110 78 Q130 82 138 128 Z" fill="#555"/>
+            <path d="M82 108 Q56 88 54 70" stroke="#555" stroke-width="12" stroke-linecap="round" fill="none"/>
+            <path d="M138 108 Q164 88 166 70" stroke="#555" stroke-width="12" stroke-linecap="round" fill="none"/>
+            <ellipse cx="52" cy="67" rx="10" ry="8" fill="#555"/>
+            <ellipse cx="168" cy="67" rx="10" ry="8" fill="#555"/>
+          </svg>
+        </div>
+        <div class="vid-box role-thumb">
+          <svg viewBox="0 0 220 140" width="100%" height="100%" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+            <rect width="220" height="140" fill="#2a2a2a"/>
+            <ellipse cx="110" cy="48" rx="20" ry="22" fill="#555"/>
+            <path d="M82 128 Q90 82 110 78 Q130 82 138 128 Z" fill="#555"/>
+            <path d="M82 106 Q60 84 62 66" stroke="#555" stroke-width="12" stroke-linecap="round" fill="none"/>
+            <path d="M138 106 Q160 84 158 66" stroke="#555" stroke-width="12" stroke-linecap="round" fill="none"/>
+            <ellipse cx="62" cy="63" rx="10" ry="8" fill="#555"/>
+            <ellipse cx="158" cy="63" rx="10" ry="8" fill="#555"/>
+          </svg>
+        </div>
+        <div class="vid-box role-thumb">
+          <svg viewBox="0 0 220 140" width="100%" height="100%" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+            <rect width="220" height="140" fill="#333"/>
+            <ellipse cx="110" cy="48" rx="20" ry="22" fill="#555"/>
+            <path d="M82 128 Q90 82 110 78 Q130 82 138 128 Z" fill="#555"/>
+            <path d="M82 110 Q54 92 50 72" stroke="#555" stroke-width="12" stroke-linecap="round" fill="none"/>
+            <path d="M138 110 Q166 92 170 72" stroke="#555" stroke-width="12" stroke-linecap="round" fill="none"/>
+            <ellipse cx="48" cy="69" rx="10" ry="8" fill="#555"/>
+            <ellipse cx="172" cy="69" rx="10" ry="8" fill="#555"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- HELP US BUILD -->
+    <div class="card">
+      <div class="two-col">
+        <div class="col-text">
+          <h2 class="sec-title">Help Us Build DeafHive</h2>
+          <p class="sec-sub mb-6">Your story, idea, or resource could help someone like you.</p>
+          <p class="sec-sub mb-18">We are making DeafHive together, and we want your input. Whether you are an event organiser, interpreter, BSL video creator, service provider or just someone who cares, let's work together.</p>
+          <ul class="bullet-list">
+            <li><strong>Submit a Resource</strong> – Share guides, links or helpful tools.</li>
+            <li><strong>Share a Video Story</strong> – Tell your story or show your work in BSL.</li>
+            <li><strong>Partner with Us</strong> – Join as a community or organisational partner.</li>
+            <li><strong>Donate or Sponsor</strong> – Support DeafHive and the Deaf community.</li>
+          </ul>
+        </div>
+        <div class="vid-box side-vid">
+          <svg viewBox="0 0 300 200" width="300" height="200" xmlns="http://www.w3.org/2000/svg">
+            <rect width="300" height="200" fill="#2a2a2a"/>
+            <ellipse cx="150" cy="62" rx="26" ry="28" fill="#555"/>
+            <path d="M112 172 Q122 112 150 107 Q178 112 188 172 Z" fill="#555"/>
+            <path d="M112 140 Q86 116 82 94" stroke="#555" stroke-width="14" stroke-linecap="round" fill="none"/>
+            <path d="M188 140 Q214 116 218 94" stroke="#555" stroke-width="14" stroke-linecap="round" fill="none"/>
+            <ellipse cx="80" cy="91" rx="12" ry="9" fill="#555"/>
+            <ellipse cx="220" cy="91" rx="12" ry="9" fill="#555"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /page-wrap -->
+
+  <!-- FOOTER -->
+  <footer>
+    <p class="footer-tagline">Everything on DeafHive is built with YOU.</p>
+    <div class="footer-links">
+      <div>
+        <a href="#">Terms &amp; Support</a>
+        <a href="#">Privacy Policy</a>
+      </div>
+      <div class="footer-meta">© 2026 DeafHive</div>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      const scrollTargets = ['#about', '#directory-embed', '#events', '#role-models'];
+      const siteNav = document.getElementById('site-nav');
+      const navToggle = document.getElementById('nav-toggle');
+      const hexLayer = document.getElementById('hex-layer');
+      if (!hexLayer) return;
+
+      if ('scrollRestoration' in history) {
+        history.scrollRestoration = 'manual';
+      }
+
+      if (scrollTargets.includes(window.location.hash)) {
+        history.replaceState(null, '', window.location.pathname + window.location.search);
+      }
+
+      window.addEventListener('load', function () {
+        window.scrollTo(0, 0);
+      });
+
+      function setNavOpen(isOpen) {
+        if (!siteNav || !navToggle) return;
+        siteNav.classList.toggle('is-open', isOpen);
+        navToggle.setAttribute('aria-expanded', String(isOpen));
+        navToggle.setAttribute('aria-label', isOpen ? 'Close navigation menu' : 'Open navigation menu');
+      }
+
+      if (navToggle && siteNav) {
+        navToggle.addEventListener('click', function () {
+          setNavOpen(!siteNav.classList.contains('is-open'));
+        });
+      }
+
+      function scrollSectionIntoView(section) {
+        if (!section || !siteNav) return;
+
+        const gap = 20;
+        const targetTop = section.getBoundingClientRect().top + window.scrollY;
+        const scrollTop = Math.max(0, targetTop - siteNav.getBoundingClientRect().height - gap);
+
+        window.scrollTo({
+          top: scrollTop,
+          behavior: 'smooth'
+        });
+      }
+
+      if (siteNav) {
+        siteNav.addEventListener('click', function (event) {
+          const trigger = event.target.closest('a[data-scroll-target]');
+          if (!trigger) return;
+
+          const targetSelector = trigger.getAttribute('data-scroll-target');
+          const targetSection = targetSelector ? document.querySelector(targetSelector) : null;
+          if (!targetSection) return;
+
+          event.preventDefault();
+          setNavOpen(false);
+          scrollSectionIntoView(targetSection);
+        });
+      }
+
+      window.addEventListener('resize', function () {
+        if (window.innerWidth > 768) {
+          setNavOpen(false);
+        }
+      });
+
+      const HEX_SIDE = 34;
+      const PAD = 260;
+      const SQRT3 = Math.sqrt(3);
+      const HEX_WIDTH = SQRT3 * HEX_SIDE;
+      const ROW_STEP = HEX_SIDE * 1.5;
+
+      function hexPoints(cx, cy, side) {
+        const points = [];
+        for (let i = 0; i < 6; i += 1) {
+          const angle = ((60 * i) - 30) * Math.PI / 180;
+          const x = cx + side * Math.cos(angle);
+          const y = cy + side * Math.sin(angle);
+          points.push(x.toFixed(2) + ',' + y.toFixed(2));
+        }
+        return points.join(' ');
+      }
+
+      function renderHexBackground() {
+        const width = window.innerWidth + (PAD * 2);
+        const height = window.innerHeight + (PAD * 2);
+        const rows = Math.ceil(height / ROW_STEP) + 2;
+        const cols = Math.ceil(width / HEX_WIDTH) + 2;
+        const polygons = [];
+
+        for (let row = 0; row < rows; row += 1) {
+          const cy = (row * ROW_STEP) + HEX_SIDE;
+          const offsetX = (row % 2) * (HEX_WIDTH / 2);
+
+          for (let col = 0; col < cols; col += 1) {
+            const cx = (col * HEX_WIDTH) + offsetX + (HEX_WIDTH / 2);
+            polygons.push('<polygon points="' + hexPoints(cx, cy, HEX_SIDE) + '"></polygon>');
+          }
+        }
+
+        const svgMarkup =
+          '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ' + width + ' ' + height + '" preserveAspectRatio="none" aria-hidden="true">' +
+          '<rect width="100%" height="100%" fill="' + getComputedStyle(document.documentElement).getPropertyValue('--navy').trim() + '"></rect>' +
+          polygons.join('') +
+          '</svg>';
+
+        hexLayer.innerHTML = svgMarkup;
+      }
+
+      let resizeTimer;
+      window.addEventListener('resize', function () {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(renderHexBackground, 80);
+      });
+
+      renderHexBackground();
+    }());
+  </script>
+</body>
+</html>
