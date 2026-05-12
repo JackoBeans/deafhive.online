@@ -319,8 +319,12 @@
     }
 
     .bullet-list li::before {
-      content: "🐝";
+      content: "•";
       flex-shrink: 0;
+      color: var(--text);
+      font-weight: 700;
+      line-height: 1;
+      font-size: 1.2rem;
       margin-top: 1px;
     }
 
@@ -368,7 +372,7 @@
       line-height: 1.5;
     }
 
-    .find-item::before { content: "🐝"; flex-shrink: 0; margin-top: 1px; }
+    .find-item::before { content: "•"; flex-shrink: 0; color: var(--text); font-weight: 700; line-height: 1; font-size: 1.2rem; margin-top: 1px; }
     .find-item strong  { color: var(--text); display: block; margin-bottom: 2px; }
 
     /* ── BSL EVENTS SECTION ── */
@@ -413,7 +417,7 @@
       color: #333;
     }
 
-    .archive-bullets li::before { content: "🐝"; flex-shrink: 0; }
+    .archive-bullets li::before { content: "•"; flex-shrink: 0; color: var(--text); font-weight: 700; line-height: 1; font-size: 1.2rem; }
     .archive-bullets strong { color: var(--text); }
 
     /* ── ROLE MODELS ── */

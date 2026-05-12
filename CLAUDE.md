@@ -62,7 +62,7 @@ There are no other files. If a new asset is needed (image, font, etc.), put it n
 9. **Help Us Build DeafHive** — invitation + video (`cIcq6oBE46s`)
 10. Footer
 
-Bullets across the site use a 🐝 emoji as the marker (`content: "🐝"` in CSS). Keep it.
+Bullets across the site use a plain `•` (navy, bold) — set via three `::before` rules: `.bullet-list li`, `.find-item`, `.archive-bullets li`. Keep them consistent if you add new lists.
 
 ## Colours and styling (CSS variables, near the top of the file)
 
