@@ -107,14 +107,15 @@ Build kicks off; site is back in ~30–60 seconds.
 
 ## Open items / things to remember
 
-- **Custom domain:** registered but not pointed at a host yet. Site is live on GitHub Pages at `https://jackobeans.github.io/deafhive.online/`.
+- **Custom domain:** registered at IONOS, DNS currently served by LiveDNS (`ns1-3.livedns.co.uk`, NamesCo/123-Reg). Not yet pointed at GitHub Pages. Site is currently live on GitHub Pages at `https://jackobeans.github.io/deafhive.online/`.
 
-  When `deafhive.online` is connected, swap the URL in **three places** so search engines see one canonical site:
-  1. `<link rel="canonical" href="...">` in `<head>`
-  2. `<meta property="og:url" content="...">` in `<head>`
-  3. `"url": "..."` inside the JSON-LD `<script type="application/ld+json">` block
+  **The three canonical-URL strings already point to `https://deafhive.online/`** (canonical, og:url, JSON-LD url). This was done in anticipation of the DNS switchover. Until DNS resolves, those URLs reference a host that doesn't exist — practical impact is small (low crawl traffic on a new site) and avoids a follow-up commit once DNS is wired up.
 
-  All three currently point to the GitHub Pages URL. They must end up identical to the live URL or Google may treat the two as duplicate content.
+  When DNS is wired up, also add the domain on the GitHub Pages side:
+  ```sh
+  gh api -X PUT /repos/JackoBeans/deafhive.online/pages -f cname=deafhive.online
+  ```
+  Then enforce HTTPS once GitHub finishes provisioning the Let's Encrypt cert.
 - **Cathy role-model card removed** (commit `ecdc975` had it; was using David's video ID as a placeholder because the original URL was unavailable). To re-add another role model, copy the David `<article class="role-card">` block and swap the `data-id`, `data-title`, the thumbnail `<img src>`, the `aria-label`, the `.role-card-name`, the tagline, and the hidden `.role-card-bio`. The flex grid will lay out 1, 2 or more cards cleanly.
 - **Footer links** (`Terms & Support`, `Privacy Policy`) are placeholder `href="#"`. No legal pages exist yet.
 - **Hero CTAs** (`Explore DeafHive`, `Get Involved`) are placeholder `href="#"`. Targets undecided.
