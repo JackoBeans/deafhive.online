@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-GB">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -48,6 +48,32 @@
       color: var(--body);
       overflow-x: hidden;
       scroll-behavior: smooth;
+    }
+
+    /* Skip-to-content link for keyboard users */
+    .skip-link {
+      position: absolute;
+      top: -100px;
+      left: 16px;
+      z-index: 300;
+      padding: 10px 18px;
+      background: var(--yellow);
+      color: var(--text);
+      border-radius: 8px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: top 0.2s ease;
+    }
+
+    .skip-link:focus {
+      top: 16px;
+      outline: 2px solid var(--text);
+      outline-offset: 2px;
+    }
+
+    /* Hide content from screen-readers when the modal locks the rest of the page */
+    [inert] {
+      pointer-events: none;
     }
 
 
@@ -203,8 +229,6 @@
       flex-shrink: 0;
     }
 
-    .vid-box svg { opacity: 0.7; }
-
     .vid-box iframe {
       width: 100%;
       height: 100%;
@@ -259,10 +283,10 @@
       transition: transform 0.2s ease;
     }
 
-    .video-facade:hover .video-facade-play svg path:first-child,
-    .video-facade:focus-visible .video-facade-play svg path:first-child {
-      fill: #f00;
-      opacity: 1;
+    .video-facade:hover .video-facade-play,
+    .video-facade:focus-visible .video-facade-play {
+      --yt-play-bg: #f00;
+      --yt-play-bg-opacity: 1;
     }
 
     .video-facade:hover .video-facade-play svg,
@@ -741,10 +765,58 @@
       .hero-text h1 { font-size: 2rem; }
       .find-grid { grid-template-columns: 1fr; }
     }
+
+    /* Respect users who prefer reduced motion */
+    @media (prefers-reduced-motion: reduce) {
+      body { scroll-behavior: auto; }
+
+      #hex-layer {
+        transform: none;
+      }
+
+      .skip-link,
+      .video-facade img,
+      .video-facade-play svg,
+      .nav-toggle-bar,
+      .video-modal-close {
+        transition: none;
+      }
+
+      .video-facade:hover img,
+      .video-facade:focus-visible img,
+      .video-facade:hover .video-facade-play svg,
+      .video-facade:focus-visible .video-facade-play svg {
+        transform: none;
+      }
+    }
   </style>
 </head>
   <body class="hex-bg">
-  <div id="hex-layer"></div>
+  <a class="skip-link" href="#about" data-scroll-target="#about">Skip to content</a>
+
+  <!-- Hex background: a single inline SVG pattern, tiled by the browser -->
+  <div id="hex-layer" aria-hidden="true">
+    <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <pattern id="hex-pattern" width="59" height="102" patternUnits="userSpaceOnUse">
+          <polygon points="29.5,-17 58.95,0 58.95,34 29.5,51 0.05,34 0.05,0"/>
+          <polygon points="0,34 29.45,51 29.45,85 0,102 -29.45,85 -29.45,51"/>
+          <polygon points="59,34 88.45,51 88.45,85 59,102 29.55,85 29.55,51"/>
+        </pattern>
+      </defs>
+      <rect width="100%" height="100%" fill="url(#hex-pattern)"/>
+    </svg>
+  </div>
+
+  <!-- Reusable YouTube play-button icon -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <symbol id="yt-play" viewBox="0 0 68 48">
+        <path d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.63 3.26-5.42 6.19C.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z" fill="var(--yt-play-bg, #212121)" opacity="var(--yt-play-bg-opacity, 0.85)"/>
+        <path d="M27 34V14l18 10-18 10z" fill="#fff"/>
+      </symbol>
+    </defs>
+  </svg>
 
   <!-- NAV -->
   <nav id="site-nav">
@@ -781,10 +853,7 @@
         <button class="video-facade" type="button" data-id="_raNeUTdE6Q" data-title="Welcome to DeafHive" aria-label="Play video: Welcome to DeafHive">
           <img src="https://i.ytimg.com/vi/_raNeUTdE6Q/hqdefault.jpg" alt="" loading="lazy">
           <span class="video-facade-play" aria-hidden="true">
-            <svg viewBox="0 0 68 48" xmlns="http://www.w3.org/2000/svg">
-              <path d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.63 3.26-5.42 6.19C.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z" fill="#212121" opacity="0.85"/>
-              <path d="M27 34V14l18 10-18 10z" fill="#fff"/>
-            </svg>
+            <svg viewBox="0 0 68 48" aria-hidden="true"><use href="#yt-play"/></svg>
           </span>
         </button>
       </div>
@@ -797,10 +866,7 @@
           <button class="video-facade" type="button" data-id="TAG5JM7zhTU" data-title="What is DeafHive?" aria-label="Play video: What is DeafHive?">
             <img src="https://i.ytimg.com/vi/TAG5JM7zhTU/hqdefault.jpg" alt="" loading="lazy">
             <span class="video-facade-play" aria-hidden="true">
-              <svg viewBox="0 0 68 48" xmlns="http://www.w3.org/2000/svg">
-                <path d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.63 3.26-5.42 6.19C.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z" fill="#212121" opacity="0.85"/>
-                <path d="M27 34V14l18 10-18 10z" fill="#fff"/>
-              </svg>
+              <svg viewBox="0 0 68 48" aria-hidden="true"><use href="#yt-play"/></svg>
             </span>
           </button>
         </div>
@@ -831,10 +897,7 @@
           <button class="video-facade" type="button" data-id="c29KSuD2iQc" data-title="Why we created DeafHive?" aria-label="Play video: Why we created DeafHive?">
             <img src="https://i.ytimg.com/vi/c29KSuD2iQc/hqdefault.jpg" alt="" loading="lazy">
             <span class="video-facade-play" aria-hidden="true">
-              <svg viewBox="0 0 68 48" xmlns="http://www.w3.org/2000/svg">
-                <path d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.63 3.26-5.42 6.19C.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z" fill="#212121" opacity="0.85"/>
-                <path d="M27 34V14l18 10-18 10z" fill="#fff"/>
-              </svg>
+              <svg viewBox="0 0 68 48" aria-hidden="true"><use href="#yt-play"/></svg>
             </span>
           </button>
         </div>
@@ -848,10 +911,7 @@
           <button class="video-facade" type="button" data-id="IcThM_Jx8bY" data-title="What you will find on DeafHive?" aria-label="Play video: What you will find on DeafHive?">
             <img src="https://i.ytimg.com/vi/IcThM_Jx8bY/hqdefault.jpg" alt="" loading="lazy">
             <span class="video-facade-play" aria-hidden="true">
-              <svg viewBox="0 0 68 48" xmlns="http://www.w3.org/2000/svg">
-                <path d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.63 3.26-5.42 6.19C.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z" fill="#212121" opacity="0.85"/>
-                <path d="M27 34V14l18 10-18 10z" fill="#fff"/>
-              </svg>
+              <svg viewBox="0 0 68 48" aria-hidden="true"><use href="#yt-play"/></svg>
             </span>
           </button>
         </div>
@@ -905,10 +965,7 @@
           <button class="video-facade" type="button" data-id="G2zSuR0IxWA" data-title="See It. Believe It. Be It." aria-label="Play video: See It. Believe It. Be It.">
             <img src="https://i.ytimg.com/vi/G2zSuR0IxWA/hqdefault.jpg" alt="" loading="lazy">
             <span class="video-facade-play" aria-hidden="true">
-              <svg viewBox="0 0 68 48" xmlns="http://www.w3.org/2000/svg">
-                <path d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.63 3.26-5.42 6.19C.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z" fill="#212121" opacity="0.85"/>
-                <path d="M27 34V14l18 10-18 10z" fill="#fff"/>
-              </svg>
+              <svg viewBox="0 0 68 48" aria-hidden="true"><use href="#yt-play"/></svg>
             </span>
           </button>
         </div>
@@ -920,10 +977,7 @@
             <button class="video-facade" type="button" data-id="k6CsKt1l9dU" data-title="David" aria-label="Open David's story">
               <img src="https://i.ytimg.com/vi/k6CsKt1l9dU/hqdefault.jpg" alt="" loading="lazy">
               <span class="video-facade-play" aria-hidden="true">
-                <svg viewBox="0 0 68 48" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.63 3.26-5.42 6.19C.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z" fill="#212121" opacity="0.85"/>
-                  <path d="M27 34V14l18 10-18 10z" fill="#fff"/>
-                </svg>
+                <svg viewBox="0 0 68 48" aria-hidden="true"><use href="#yt-play"/></svg>
               </span>
             </button>
           </div>
@@ -941,10 +995,7 @@
             <button class="video-facade" type="button" data-id="k6CsKt1l9dU" data-title="Cathy" aria-label="Open Cathy's story">
               <img src="https://i.ytimg.com/vi/k6CsKt1l9dU/hqdefault.jpg" alt="" loading="lazy">
               <span class="video-facade-play" aria-hidden="true">
-                <svg viewBox="0 0 68 48" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.63 3.26-5.42 6.19C.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z" fill="#212121" opacity="0.85"/>
-                  <path d="M27 34V14l18 10-18 10z" fill="#fff"/>
-                </svg>
+                <svg viewBox="0 0 68 48" aria-hidden="true"><use href="#yt-play"/></svg>
               </span>
             </button>
           </div>
@@ -979,10 +1030,7 @@
           <button class="video-facade" type="button" data-id="rBCV5m3_C9U" data-title="Help Us Build DeafHive" aria-label="Play video: Help Us Build DeafHive">
             <img src="https://i.ytimg.com/vi/rBCV5m3_C9U/hqdefault.jpg" alt="" loading="lazy">
             <span class="video-facade-play" aria-hidden="true">
-              <svg viewBox="0 0 68 48" xmlns="http://www.w3.org/2000/svg">
-                <path d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.63 3.26-5.42 6.19C.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z" fill="#212121" opacity="0.85"/>
-                <path d="M27 34V14l18 10-18 10z" fill="#fff"/>
-              </svg>
+              <svg viewBox="0 0 68 48" aria-hidden="true"><use href="#yt-play"/></svg>
             </span>
           </button>
         </div>
@@ -1014,8 +1062,7 @@
       const scrollTargets = ['#about', '#directory-embed', '#events', '#role-models'];
       const siteNav = document.getElementById('site-nav');
       const navToggle = document.getElementById('nav-toggle');
-      const hexLayer = document.getElementById('hex-layer');
-      if (!hexLayer) return;
+      const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
       if ('scrollRestoration' in history) {
         history.scrollRestoration = 'manual';
@@ -1051,7 +1098,7 @@
 
         window.scrollTo({
           top: scrollTop,
-          behavior: 'smooth'
+          behavior: reducedMotion.matches ? 'auto' : 'smooth'
         });
       }
 
@@ -1109,6 +1156,7 @@
           if (videoModalBio) videoModalBio.innerHTML = '';
         }
 
+        setBodyInertExceptModal(true);
         videoModal.classList.add('is-open');
         videoModal.setAttribute('aria-hidden', 'false');
         document.body.style.overflow = 'hidden';
@@ -1130,10 +1178,24 @@
         videoModal.classList.remove('is-open');
         videoModal.setAttribute('aria-hidden', 'true');
         document.body.style.overflow = '';
+        setBodyInertExceptModal(false);
         if (lastFocusedFacade && typeof lastFocusedFacade.focus === 'function') {
           lastFocusedFacade.focus();
         }
         lastFocusedFacade = null;
+      }
+
+      function setBodyInertExceptModal(on) {
+        const children = document.body.children;
+        for (let i = 0; i < children.length; i += 1) {
+          const el = children[i];
+          if (el === videoModal) continue;
+          if (on) {
+            el.setAttribute('inert', '');
+          } else {
+            el.removeAttribute('inert');
+          }
+        }
       }
 
       document.addEventListener('click', function (event) {
@@ -1160,56 +1222,6 @@
         }
       });
 
-      const HEX_SIDE = 34;
-      const PAD = 260;
-      const SQRT3 = Math.sqrt(3);
-      const HEX_WIDTH = SQRT3 * HEX_SIDE;
-      const ROW_STEP = HEX_SIDE * 1.5;
-
-      function hexPoints(cx, cy, side) {
-        const points = [];
-        for (let i = 0; i < 6; i += 1) {
-          const angle = ((60 * i) - 30) * Math.PI / 180;
-          const x = cx + side * Math.cos(angle);
-          const y = cy + side * Math.sin(angle);
-          points.push(x.toFixed(2) + ',' + y.toFixed(2));
-        }
-        return points.join(' ');
-      }
-
-      function renderHexBackground() {
-        const width = window.innerWidth + (PAD * 2);
-        const height = window.innerHeight + (PAD * 2);
-        const rows = Math.ceil(height / ROW_STEP) + 2;
-        const cols = Math.ceil(width / HEX_WIDTH) + 2;
-        const polygons = [];
-
-        for (let row = 0; row < rows; row += 1) {
-          const cy = (row * ROW_STEP) + HEX_SIDE;
-          const offsetX = (row % 2) * (HEX_WIDTH / 2);
-
-          for (let col = 0; col < cols; col += 1) {
-            const cx = (col * HEX_WIDTH) + offsetX + (HEX_WIDTH / 2);
-            polygons.push('<polygon points="' + hexPoints(cx, cy, HEX_SIDE) + '"></polygon>');
-          }
-        }
-
-        const svgMarkup =
-          '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ' + width + ' ' + height + '" preserveAspectRatio="none" aria-hidden="true">' +
-          '<rect width="100%" height="100%" fill="' + getComputedStyle(document.documentElement).getPropertyValue('--navy').trim() + '"></rect>' +
-          polygons.join('') +
-          '</svg>';
-
-        hexLayer.innerHTML = svgMarkup;
-      }
-
-      let resizeTimer;
-      window.addEventListener('resize', function () {
-        clearTimeout(resizeTimer);
-        resizeTimer = setTimeout(renderHexBackground, 80);
-      });
-
-      renderHexBackground();
     }());
   </script>
 </body>
