@@ -97,6 +97,13 @@ Until that's set up, the site only runs locally.
 ## Open items / things to remember
 
 - **Custom domain:** registered but not pointed at a host yet. Site is live on GitHub Pages at `https://jackobeans.github.io/deafhive.online/`.
+
+  When `deafhive.online` is connected, swap the URL in **three places** so search engines see one canonical site:
+  1. `<link rel="canonical" href="...">` in `<head>`
+  2. `<meta property="og:url" content="...">` in `<head>`
+  3. `"url": "..."` inside the JSON-LD `<script type="application/ld+json">` block
+
+  All three currently point to the GitHub Pages URL. They must end up identical to the live URL or Google may treat the two as duplicate content.
 - **Cathy role-model video** currently re-uses David's video ID (`k6CsKt1l9dU`) as a placeholder — the original URL Mark sent (`fNecBX0QxTI`) was unavailable. Swap to the real ID when Mark provides it.
 - **Footer links** (`Terms & Support`, `Privacy Policy`) are placeholder `href="#"`. No legal pages exist yet.
 - **Hero CTAs** (`Explore DeafHive`, `Get Involved`) are placeholder `href="#"`. Targets undecided.
