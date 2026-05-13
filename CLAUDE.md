@@ -40,14 +40,27 @@ Do not introduce a framework, a bundler, Tailwind, React, etc. without asking. T
 ## File / repo layout
 
 ```
-index.html       ← the entire site (HTML, embedded CSS, embedded JS)
+index.html          ← the entire site (HTML, embedded CSS, embedded JS)
+og.svg              ← source for the social-share / Open Graph image
+og.png              ← rendered 1200x630 OG image, referenced from <head>
+CNAME               ← GitHub Pages custom-domain marker (deafhive.online)
 README.md           ← public, on GitHub
 CLAUDE.md           ← this file
 .gitignore
 .claude/launch.json ← local dev preview config (gitignored)
 ```
 
-There are no other files. If a new asset is needed (image, font, etc.), put it next to `index.html` and reference it relatively.
+If a new asset is needed (image, font, etc.), put it next to `index.html` and reference it relatively.
+
+### Regenerating `og.png`
+
+The OG image is rendered from `og.svg` via librsvg (`brew install librsvg` once):
+
+```sh
+rsvg-convert -w 1200 -h 630 og.svg -o og.png
+```
+
+Edit the SVG (brand colours, copy, layout), then re-run. Commit both files together.
 
 ## Sections in `index.html` (in order)
 

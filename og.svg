@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <!-- Navy background -->
+  <rect width="1200" height="630" fill="#2852b7"/>
+
+  <!-- Subtle rotated hex pattern overlay -->
+  <defs>
+    <pattern id="hex" width="59" height="102" patternUnits="userSpaceOnUse" patternTransform="rotate(-8)">
+      <polygon points="29.5,-17 58.95,0 58.95,34 29.5,51 0.05,34 0.05,0" fill="none" stroke="#ffffff" stroke-opacity="0.10" stroke-width="2.2"/>
+      <polygon points="0,34 29.45,51 29.45,85 0,102 -29.45,85 -29.45,51" fill="none" stroke="#ffffff" stroke-opacity="0.10" stroke-width="2.2"/>
+      <polygon points="59,34 88.45,51 88.45,85 59,102 29.55,85 29.55,51" fill="none" stroke="#ffffff" stroke-opacity="0.10" stroke-width="2.2"/>
+    </pattern>
+  </defs>
+  <rect width="1200" height="630" fill="url(#hex)"/>
+
+  <!-- Right-side yellow hexagon -->
+  <polygon points="950,165 1100,250 1100,420 950,505 800,420 800,250" fill="#f5c842"/>
+  <!-- D letter inside hexagon -->
+  <text x="950" y="400" font-family="Helvetica Neue, Helvetica, Arial, sans-serif"
+        font-size="220" font-weight="900" fill="#2852b7" text-anchor="middle">D</text>
+
+  <!-- Wordmark "DeafHive" -->
+  <text x="80" y="280" font-family="Helvetica Neue, Helvetica, Arial, sans-serif"
+        font-size="120" font-weight="900" fill="#ffffff" letter-spacing="-2">DeafHive</text>
+
+  <!-- Tagline -->
+  <text x="80" y="345" font-family="Helvetica Neue, Helvetica, Arial, sans-serif"
+        font-size="38" font-weight="700" fill="#f5c842">Information. Inspiration. Inclusion.</text>
+
+  <!-- Body lines -->
+  <text x="80" y="430" font-family="Helvetica Neue, Helvetica, Arial, sans-serif"
+        font-size="30" font-weight="400" fill="#ffffff" fill-opacity="0.95">A central online space</text>
+  <text x="80" y="475" font-family="Helvetica Neue, Helvetica, Arial, sans-serif"
+        font-size="30" font-weight="400" fill="#ffffff" fill-opacity="0.95">for the Deaf community.</text>
+
+  <!-- URL footer -->
+  <text x="80" y="570" font-family="Helvetica Neue, Helvetica, Arial, sans-serif"
+        font-size="24" font-weight="700" fill="#f5c842">deafhive.online</text>
+</svg>
