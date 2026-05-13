@@ -58,7 +58,7 @@ There are no other files. If a new asset is needed (image, font, etc.), put it n
 5. **What You Will Find on DeafHive** — four categories + video (`IcThM_Jx8bY`)
 6. `#directory-embed` — **Community Directory** Softr iframe
 7. `#events` — **BSL Events & Community Video Archive** Softr iframe
-8. `#role-models` — **See It. Believe It. Be It.** — single centred video (`G2zSuR0IxWA`)
+8. `#role-models` — **See It. Believe It. Be It.** — overview video (`G2zSuR0IxWA`) followed by a 2-card grid of individual role models. Each `.role-card` holds a `.video-facade` thumbnail, a visible short tagline in `.role-card-body`, and a hidden `.role-card-bio` (the full text). Clicking the facade opens the lightbox with the bio populated in `.video-modal-details`.
 9. **Help Us Build DeafHive** — invitation + video (`rBCV5m3_C9U`)
 10. Footer
 
@@ -97,6 +97,7 @@ Until that's set up, the site only runs locally.
 ## Open items / things to remember
 
 - **Custom domain:** registered but not pointed at a host yet. Site is live on GitHub Pages at `https://jackobeans.github.io/deafhive.online/`.
+- **Cathy role-model video** currently re-uses David's video ID (`k6CsKt1l9dU`) as a placeholder — the original URL Mark sent (`fNecBX0QxTI`) was unavailable. Swap to the real ID when Mark provides it.
 - **Footer links** (`Terms & Support`, `Privacy Policy`) are placeholder `href="#"`. No legal pages exist yet.
 - **Hero CTAs** (`Explore DeafHive`, `Get Involved`) are placeholder `href="#"`. Targets undecided.
 - **`#directory` anchor** is on the "What You Will Find" card; the nav points to `#directory-embed` (the actual iframe card). Likely fine, but worth noting if reorganising IDs.

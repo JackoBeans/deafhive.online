@@ -273,15 +273,25 @@
       display: flex;
     }
 
-    .video-modal-frame {
+    .video-modal-content {
       position: relative;
       width: 50vw;
       max-width: 100%;
+      max-height: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .video-modal-frame {
+      position: relative;
+      width: 100%;
       aspect-ratio: 16 / 9;
       background: #000;
       border-radius: 12px;
       overflow: hidden;
       box-shadow: 0 24px 60px rgba(0, 0, 0, 0.6);
+      flex-shrink: 0;
     }
 
     .video-modal-frame iframe {
@@ -289,6 +299,37 @@
       height: 100%;
       border: 0;
       display: block;
+    }
+
+    .video-modal-details {
+      background: var(--white);
+      border-radius: 12px;
+      padding: 22px 26px;
+      color: var(--body);
+      max-height: 35vh;
+      overflow-y: auto;
+    }
+
+    .video-modal-details[hidden] {
+      display: none;
+    }
+
+    .video-modal-name {
+      font-size: 1.2rem;
+      font-weight: 800;
+      color: var(--text);
+      margin-bottom: 10px;
+    }
+
+    .video-modal-bio p {
+      font-size: 0.95rem;
+      line-height: 1.55;
+      color: #333;
+      margin-bottom: 10px;
+    }
+
+    .video-modal-bio p:last-child {
+      margin-bottom: 0;
     }
 
     .video-modal-close {
@@ -309,6 +350,7 @@
       align-items: center;
       justify-content: center;
       transition: background 0.2s ease;
+      z-index: 1;
     }
 
     .video-modal-close:hover,
@@ -323,8 +365,54 @@
     }
 
     @media (max-width: 768px) {
-      .video-modal-frame {
+      .video-modal-content {
         width: 90vw;
+      }
+    }
+
+    /* ── Role-model cards ── */
+    .role-models-people {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+      margin-top: 36px;
+    }
+
+    .role-card {
+      background: var(--white);
+      border: 1px solid rgba(28, 45, 96, 0.10);
+      border-radius: 14px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .role-card-thumb {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      border-radius: 0;
+    }
+
+    .role-card-body {
+      padding: 18px 22px 22px;
+    }
+
+    .role-card-name {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+
+    .role-card-body p {
+      font-size: 0.93rem;
+      color: #444;
+      line-height: 1.5;
+    }
+
+    @media (max-width: 768px) {
+      .role-models-people {
+        grid-template-columns: 1fr;
       }
     }
 
@@ -869,6 +957,52 @@
           </button>
         </div>
       </div>
+
+      <div class="role-models-people">
+        <article class="role-card">
+          <div class="vid-box role-card-thumb">
+            <button class="video-facade" type="button" data-id="k6CsKt1l9dU" data-title="David" aria-label="Open David's story">
+              <img src="https://i.ytimg.com/vi/k6CsKt1l9dU/hqdefault.jpg" alt="" loading="lazy">
+              <span class="video-facade-play" aria-hidden="true">
+                <svg viewBox="0 0 68 48" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.63 3.26-5.42 6.19C.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z" fill="#212121" opacity="0.85"/>
+                  <path d="M27 34V14l18 10-18 10z" fill="#fff"/>
+                </svg>
+              </span>
+            </button>
+          </div>
+          <div class="role-card-body">
+            <h3 class="role-card-name">David</h3>
+            <p>He can dance, he can act, and he&rsquo;s the translator for our BSL and subtitled accessible version.</p>
+          </div>
+          <div class="role-card-bio" hidden>
+            <p>He can dance, he can act, and he&rsquo;s the translator for our BSL and subtitled accessible version.</p>
+          </div>
+        </article>
+
+        <article class="role-card">
+          <div class="vid-box role-card-thumb">
+            <button class="video-facade" type="button" data-id="k6CsKt1l9dU" data-title="Cathy" aria-label="Open Cathy's story">
+              <img src="https://i.ytimg.com/vi/k6CsKt1l9dU/hqdefault.jpg" alt="" loading="lazy">
+              <span class="video-facade-play" aria-hidden="true">
+                <svg viewBox="0 0 68 48" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.63 3.26-5.42 6.19C.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z" fill="#212121" opacity="0.85"/>
+                  <path d="M27 34V14l18 10-18 10z" fill="#fff"/>
+                </svg>
+              </span>
+            </button>
+          </div>
+          <div class="role-card-body">
+            <h3 class="role-card-name">Cathy</h3>
+            <p>Through her artistic endeavours, she skillfully creates a bridge that connects the worlds of those who can and cannot hear.</p>
+          </div>
+          <div class="role-card-bio" hidden>
+            <p>Through her artistic endeavours, she skillfully creates a bridge that connects the worlds of those who can and cannot hear. Her artworks, which explore various themes including equality, climate change and cultural heritage, bring light to the Deaf community.</p>
+            <p>Upon first meeting Cathy Mager, the remarkable creative director and artist, her radiating smile leaves an enduring impression. Assisted by a British Sign Language translator, People&rsquo;s Daily Online engaged in a meaningful conversation with Mager at the Bristol Beacon, one of the cultural landmarks in the city.</p>
+            <p>For Mager, art offers the Deaf community an open and inclusive space, and is central to advocating for equal rights of Deaf people all around the world. Through her creative powers, she strives to be an active voice in the Deaf community, empowering Deaf people to embrace a strong and unique sense of self-identity, while inspiring more of them through her life story.</p>
+          </div>
+        </article>
+      </div>
     </div>
 
     <!-- HELP US BUILD -->
@@ -903,8 +1037,13 @@
 
   <!-- VIDEO MODAL -->
   <div id="video-modal" class="video-modal" role="dialog" aria-modal="true" aria-hidden="true" aria-label="Video player">
-    <div class="video-modal-frame">
+    <div class="video-modal-content">
       <button class="video-modal-close" type="button" aria-label="Close video">&times;</button>
+      <div class="video-modal-frame"></div>
+      <div class="video-modal-details" hidden>
+        <h3 class="video-modal-name"></h3>
+        <div class="video-modal-bio"></div>
+      </div>
     </div>
   </div>
 
@@ -989,6 +1128,9 @@
 
       const videoModal = document.getElementById('video-modal');
       const videoModalFrame = videoModal ? videoModal.querySelector('.video-modal-frame') : null;
+      const videoModalDetails = videoModal ? videoModal.querySelector('.video-modal-details') : null;
+      const videoModalName = videoModal ? videoModal.querySelector('.video-modal-name') : null;
+      const videoModalBio = videoModal ? videoModal.querySelector('.video-modal-bio') : null;
       let lastFocusedFacade = null;
 
       function openVideoModal(id, title, invoker) {
@@ -1002,6 +1144,21 @@
         iframe.setAttribute('referrerpolicy', 'strict-origin-when-cross-origin');
         iframe.setAttribute('allowfullscreen', '');
         videoModalFrame.appendChild(iframe);
+
+        const card = invoker ? invoker.closest('.role-card') : null;
+        if (card && videoModalDetails && videoModalName && videoModalBio) {
+          const nameEl = card.querySelector('.role-card-name');
+          const bioEl = card.querySelector('.role-card-bio');
+          videoModalName.textContent = nameEl ? nameEl.textContent : title;
+          videoModalBio.innerHTML = bioEl ? bioEl.innerHTML : '';
+          videoModalDetails.hidden = false;
+          videoModalDetails.scrollTop = 0;
+        } else if (videoModalDetails) {
+          videoModalDetails.hidden = true;
+          if (videoModalName) videoModalName.textContent = '';
+          if (videoModalBio) videoModalBio.innerHTML = '';
+        }
+
         videoModal.classList.add('is-open');
         videoModal.setAttribute('aria-hidden', 'false');
         document.body.style.overflow = 'hidden';
@@ -1015,6 +1172,11 @@
         if (!videoModal.classList.contains('is-open')) return;
         const iframe = videoModalFrame.querySelector('iframe');
         if (iframe) iframe.remove();
+        if (videoModalDetails) {
+          videoModalDetails.hidden = true;
+          if (videoModalName) videoModalName.textContent = '';
+          if (videoModalBio) videoModalBio.innerHTML = '';
+        }
         videoModal.classList.remove('is-open');
         videoModal.setAttribute('aria-hidden', 'true');
         document.body.style.overflow = '';
