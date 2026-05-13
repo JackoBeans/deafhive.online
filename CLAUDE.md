@@ -90,9 +90,20 @@ In a Claude Code session with the preview tools, use `preview_start` with the `d
 
 ## Deployment
 
-Not yet wired. Plan: **Cloudflare Pages** connected to the GitHub repo at https://github.com/JackoBeans/deafhive.online, with `deafhive.online` as the custom domain. Pushes to `main` auto-deploy.
+The site is live on **GitHub Pages** at `https://jackobeans.github.io/deafhive.online/`. Pushes to `main` auto-deploy via the default Pages build (legacy/Jekyll, source `main:/`).
 
-Until that's set up, the site only runs locally.
+Custom domain `deafhive.online` is registered but not yet pointed at the host.
+
+### Gotcha: Pages turns off when the repo goes private
+
+Making the repo private (even briefly) **disables** GitHub Pages on the free tier. Flipping back to public does **not** automatically re-enable it. Symptoms: live URL returns 404, `gh api repos/JackoBeans/deafhive.online --jq .has_pages` shows `false`. Fix:
+
+```sh
+gh api -X POST repos/JackoBeans/deafhive.online/pages \
+  -f 'source[branch]=main' -f 'source[path]=/'
+```
+
+Build kicks off; site is back in ~30–60 seconds.
 
 ## Open items / things to remember
 
