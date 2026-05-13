@@ -58,7 +58,7 @@ There are no other files. If a new asset is needed (image, font, etc.), put it n
 5. **What You Will Find on DeafHive** — four categories + video (`IcThM_Jx8bY`)
 6. `#directory-embed` — **Community Directory** Softr iframe
 7. `#events` — **BSL Events & Community Video Archive** Softr iframe
-8. `#role-models` — **See It. Believe It. Be It.** — overview video (`G2zSuR0IxWA`) followed by a 2-card grid of individual role models. Each `.role-card` holds a `.video-facade` thumbnail, a visible short tagline in `.role-card-body`, and a hidden `.role-card-bio` (the full text). Clicking the facade opens the lightbox with the bio populated in `.video-modal-details`.
+8. `#role-models` — **See It. Believe It. Be It.** — overview video (`G2zSuR0IxWA`) followed by a centred role-model card grid. The card pattern: each `.role-card` holds a `.video-facade` thumbnail, a visible short tagline in `.role-card-body`, and a hidden `.role-card-bio` (the full text). Clicking the facade opens the lightbox with the bio populated in `.video-modal-details`. Currently only David is shipped (`k6CsKt1l9dU`); the grid uses `flex; justify-content: center` so any number of cards (1, 2, 3, …) lay out cleanly.
 9. **Help Us Build DeafHive** — invitation + video (`rBCV5m3_C9U`)
 10. Footer
 
@@ -115,7 +115,7 @@ Build kicks off; site is back in ~30–60 seconds.
   3. `"url": "..."` inside the JSON-LD `<script type="application/ld+json">` block
 
   All three currently point to the GitHub Pages URL. They must end up identical to the live URL or Google may treat the two as duplicate content.
-- **Cathy role-model video** currently re-uses David's video ID (`k6CsKt1l9dU`) as a placeholder — the original URL Mark sent (`fNecBX0QxTI`) was unavailable. Swap to the real ID when Mark provides it.
+- **Cathy role-model card removed** (commit `ecdc975` had it; was using David's video ID as a placeholder because the original URL was unavailable). To re-add another role model, copy the David `<article class="role-card">` block and swap the `data-id`, `data-title`, the thumbnail `<img src>`, the `aria-label`, the `.role-card-name`, the tagline, and the hidden `.role-card-bio`. The flex grid will lay out 1, 2 or more cards cleanly.
 - **Footer links** (`Terms & Support`, `Privacy Policy`) are placeholder `href="#"`. No legal pages exist yet.
 - **Hero CTAs** (`Explore DeafHive`, `Get Involved`) are placeholder `href="#"`. Targets undecided.
 - **`#directory` anchor** is on the "What You Will Find" card; the nav points to `#directory-embed` (the actual iframe card). Likely fine, but worth noting if reorganising IDs.

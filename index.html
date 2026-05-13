@@ -426,8 +426,9 @@
 
     /* ── Role-model cards ── */
     .role-models-people {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
       gap: 24px;
       margin-top: 36px;
     }
@@ -439,6 +440,8 @@
       overflow: hidden;
       display: flex;
       flex-direction: column;
+      flex: 1 1 280px;
+      max-width: 500px;
     }
 
     .role-card-thumb {
@@ -465,8 +468,9 @@
     }
 
     @media (max-width: 768px) {
-      .role-models-people {
-        grid-template-columns: 1fr;
+      .role-card {
+        flex-basis: 100%;
+        max-width: none;
       }
     }
 
@@ -492,6 +496,7 @@
       color: var(--text);
       line-height: 1.15;
       margin-bottom: 12px;
+      text-align: center;
     }
 
     .hero-text .tagline {
@@ -553,6 +558,7 @@
       font-weight: 800;
       color: var(--text);
       margin-bottom: 8px;
+      text-align: center;
     }
 
     h2.sec-title-center {
@@ -1002,25 +1008,6 @@
           </div>
         </article>
 
-        <article class="role-card">
-          <div class="vid-box role-card-thumb">
-            <button class="video-facade" type="button" data-id="k6CsKt1l9dU" data-title="Cathy" aria-label="Open Cathy's story">
-              <img src="https://i.ytimg.com/vi/k6CsKt1l9dU/hqdefault.jpg" alt="" loading="lazy">
-              <span class="video-facade-play" aria-hidden="true">
-                <svg viewBox="0 0 68 48" aria-hidden="true"><use href="#yt-play"/></svg>
-              </span>
-            </button>
-          </div>
-          <div class="role-card-body">
-            <h3 class="role-card-name">Cathy</h3>
-            <p>Through her artistic endeavours, she skillfully creates a bridge that connects the worlds of those who can and cannot hear.</p>
-          </div>
-          <div class="role-card-bio" hidden>
-            <p>Through her artistic endeavours, she skillfully creates a bridge that connects the worlds of those who can and cannot hear. Her artworks, which explore various themes including equality, climate change and cultural heritage, bring light to the Deaf community.</p>
-            <p>Upon first meeting Cathy Mager, the remarkable creative director and artist, her radiating smile leaves an enduring impression. Assisted by a British Sign Language translator, People&rsquo;s Daily Online engaged in a meaningful conversation with Mager at the Bristol Beacon, one of the cultural landmarks in the city.</p>
-            <p>For Mager, art offers the Deaf community an open and inclusive space, and is central to advocating for equal rights of Deaf people all around the world. Through her creative powers, she strives to be an active voice in the Deaf community, empowering Deaf people to embrace a strong and unique sense of self-identity, while inspiring more of them through her life story.</p>
-          </div>
-        </article>
       </div>
     </div>
 
