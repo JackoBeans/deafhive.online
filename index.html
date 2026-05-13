@@ -3,8 +3,29 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>DeafHive</title>
+  <title>DeafHive — a central online space for the Deaf community</title>
+  <meta name="description" content="A central online space for the Deaf community, bringing together local events, BSL videos, services and support.">
+  <meta name="theme-color" content="#2852b7">
+  <link rel="canonical" href="https://jackobeans.github.io/deafhive.online/">
+
+  <!-- Open Graph / Twitter -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="DeafHive">
+  <meta property="og:title" content="DeafHive — a central online space for the Deaf community">
+  <meta property="og:description" content="A central online space for the Deaf community, bringing together local events, BSL videos, services and support.">
+  <meta property="og:url" content="https://jackobeans.github.io/deafhive.online/">
+  <meta property="og:locale" content="en_GB">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="DeafHive">
+  <meta name="twitter:description" content="A central online space for the Deaf community.">
+
+  <!-- Favicon: navy tile + yellow hexagon + 'D' (matches the brand hex motif) -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232852b7'/%3E%3Cpolygon points='32,8 56,22 56,42 32,56 8,42 8,22' fill='%23f5c842'/%3E%3Ctext x='32' y='42' font-family='-apple-system,Arial,sans-serif' font-size='28' font-weight='900' fill='%232852b7' text-anchor='middle'%3ED%3C/text%3E%3C/svg%3E">
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://i.ytimg.com">
+  <link rel="preconnect" href="https://www.youtube-nocookie.com">
   <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;600;700;800;900&amp;display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -34,14 +55,11 @@
     #hex-layer {
       position: fixed;
       inset: -12vmax;
+      z-index: -1;
       overflow: hidden;
       transform: rotate(-8deg) scale(1.08);
       transform-origin: center;
       pointer-events: none;
-    }
-
-    #hex-layer {
-      z-index: -1;
     }
 
     #hex-layer svg {
@@ -560,7 +578,6 @@
     }
 
     .two-col .col-text { flex: 1; }
-    .two-col .col-vid  { flex-shrink: 0; }
 
     .side-vid {
       width: 40%;
@@ -604,44 +621,6 @@
       padding: 0 24px;
     }
 
-    .archive-card {
-      display: flex;
-      align-items: center;
-      gap: 40px;
-    }
-
-    .archive-copy {
-      flex: 1;
-    }
-
-    .archive-vid {
-      width: 440px;
-      height: 260px;
-      border-radius: 12px;
-      overflow: hidden;
-    }
-
-    .archive-bullets {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      margin-top: 16px;
-      text-align: left;
-    }
-
-    .archive-bullets li {
-      display: flex;
-      align-items: flex-start;
-      gap: 10px;
-      font-size: 0.97rem;
-      line-height: 1.5;
-      color: #333;
-    }
-
-    .archive-bullets li::before { content: "•"; flex-shrink: 0; color: var(--text); font-weight: 700; line-height: 1; font-size: 1.2rem; }
-    .archive-bullets strong { color: var(--text); }
-
     /* ── ROLE MODELS ── */
     .role-models-vid {
       display: flex;
@@ -656,11 +635,6 @@
       display: block;
     }
 
-    .mx-auto {
-      margin-left: auto;
-      margin-right: auto;
-    }
-
     .mb-24 { margin-bottom: 24px; }
     .mb-18 { margin-bottom: 18px; }
     .mb-16 { margin-bottom: 16px; }
@@ -671,15 +645,15 @@
       font-weight: 700;
     }
 
-    .footer-meta {
-      color: rgba(255,255,255,0.5);
-      font-size: 0.82rem;
-    }
-
     /* ── FOOTER ── */
     footer {
       padding: 28px 40px;
       text-align: center;
+    }
+
+    .footer-meta {
+      color: rgba(255, 255, 255, 0.5);
+      font-size: 0.82rem;
     }
 
     @media (min-width: 1024px) {
@@ -711,26 +685,8 @@
       font-size: 1.5rem;
       font-weight: 800;
       color: var(--white);
-      margin-bottom: 20px;
+      margin-bottom: 12px;
     }
-
-    .footer-links {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      max-width: 1200px;
-      margin: 0 auto;
-      font-size: 0.88rem;
-      color: rgba(255,255,255,0.7);
-    }
-
-    .footer-links a {
-      color: rgba(255,255,255,0.7);
-      text-decoration: none;
-      margin-right: 20px;
-    }
-
-    .footer-links a:hover { color: var(--white); }
 
     /* ── RESPONSIVE ── */
     @media (max-width: 768px) {
@@ -792,7 +748,7 @@
 
   <!-- NAV -->
   <nav id="site-nav">
-    <a class="logo" href="#">DeafHive</a>
+    <a class="logo" href="#about" data-scroll-target="#about">DeafHive</a>
     <button class="nav-toggle" id="nav-toggle" type="button" aria-expanded="false" aria-controls="site-menu" aria-label="Open navigation menu">
       <span class="nav-toggle-icon" aria-hidden="true">
         <span class="nav-toggle-bar"></span>
@@ -817,8 +773,8 @@
         <p class="tagline">Information. Inspiration. Inclusion</p>
         <p>A central online space for the Deaf community, bringing together everything from local events to life-changing support.</p>
         <div class="hero-btns">
-          <a href="#" class="btn-yellow">Explore DeafHive</a>
-          <a href="#" class="btn-outline">Get Involved</a>
+          <a href="#directory-embed" data-scroll-target="#directory-embed" class="btn-yellow">Explore DeafHive</a>
+          <a href="#help-us-build" data-scroll-target="#help-us-build" class="btn-outline">Get Involved</a>
         </div>
       </div>
       <div class="vid-box hero-vid">
@@ -922,7 +878,7 @@
     <!-- COMMUNITY DIRECTORY -->
     <div class="card" id="directory-embed">
       <h2 class="sec-title mb-24">DeafHive Community Directory</h2>
-      <iframe class="embed-frame" src="https://leola31663.softr.app/ai-block/share/5338c0ab-9af7-4b06-ba47-e74ee5a0544b/fe96f9de-0fed-4be8-a3c6-4ef6a5d57dc2" width="100%" height="1000" frameborder="0"></iframe>
+      <iframe class="embed-frame" src="https://leola31663.softr.app/ai-block/share/5338c0ab-9af7-4b06-ba47-e74ee5a0544b/fe96f9de-0fed-4be8-a3c6-4ef6a5d57dc2" loading="lazy" title="DeafHive Community Directory" width="100%" height="1000" frameborder="0"></iframe>
     </div>
 
   </div><!-- /page-wrap -->
@@ -931,7 +887,7 @@
   <div class="archive-section">
     <div class="card" id="events">
       <h2 class="sec-title mb-24">BSL Events &amp; Community Video Archive</h2>
-      <iframe class="embed-frame" src="https://leola31663.softr.app/ai-block/share/5338c0ab-9af7-4b06-ba47-e74ee5a0544b/ddd453cd-54f8-4a29-ac35-f7e6ace97161" width="100%" height="1000" frameborder="0"></iframe>
+      <iframe class="embed-frame" src="https://leola31663.softr.app/ai-block/share/5338c0ab-9af7-4b06-ba47-e74ee5a0544b/ddd453cd-54f8-4a29-ac35-f7e6ace97161" loading="lazy" title="BSL Events &amp; Community Video Archive" width="100%" height="1000" frameborder="0"></iframe>
     </div>
   </div>
 
@@ -1006,7 +962,7 @@
     </div>
 
     <!-- HELP US BUILD -->
-    <div class="card">
+    <div class="card" id="help-us-build">
       <div class="two-col">
         <div class="col-text">
           <h2 class="sec-title">Help Us Build DeafHive</h2>
@@ -1050,13 +1006,7 @@
   <!-- FOOTER -->
   <footer>
     <p class="footer-tagline">Everything on DeafHive is built with YOU.</p>
-    <div class="footer-links">
-      <div>
-        <a href="#">Terms &amp; Support</a>
-        <a href="#">Privacy Policy</a>
-      </div>
-      <div class="footer-meta">© 2026 DeafHive</div>
-    </div>
+    <p class="footer-meta">© 2026 DeafHive</p>
   </footer>
 
   <script>
@@ -1105,20 +1055,20 @@
         });
       }
 
-      if (siteNav) {
-        siteNav.addEventListener('click', function (event) {
-          const trigger = event.target.closest('a[data-scroll-target]');
-          if (!trigger) return;
+      document.addEventListener('click', function (event) {
+        const trigger = event.target.closest('a[data-scroll-target]');
+        if (!trigger) return;
 
-          const targetSelector = trigger.getAttribute('data-scroll-target');
-          const targetSection = targetSelector ? document.querySelector(targetSelector) : null;
-          if (!targetSection) return;
+        const targetSelector = trigger.getAttribute('data-scroll-target');
+        const targetSection = targetSelector ? document.querySelector(targetSelector) : null;
+        if (!targetSection) return;
 
-          event.preventDefault();
+        event.preventDefault();
+        if (trigger.closest('#site-nav')) {
           setNavOpen(false);
-          scrollSectionIntoView(targetSection);
-        });
-      }
+        }
+        scrollSectionIntoView(targetSection);
+      });
 
       window.addEventListener('resize', function () {
         if (window.innerWidth > 768) {
