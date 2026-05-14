@@ -429,6 +429,56 @@
       }
     }
 
+    /* ── Refresh affordance under Softr iframes ── */
+    .embed-refresh {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 12px;
+      margin-top: 14px;
+      font-size: 0.9rem;
+      color: #666;
+    }
+
+    .embed-refresh-hint {
+      font-style: italic;
+    }
+
+    .embed-refresh-btn {
+      padding: 8px 16px;
+      background: var(--yellow);
+      color: var(--text);
+      border: 0;
+      border-radius: 8px;
+      font-weight: 700;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: background 0.2s ease;
+    }
+
+    .embed-refresh-btn:hover { background: var(--yellow-dk); }
+
+    .embed-refresh-btn:focus-visible {
+      outline: 2px solid var(--text);
+      outline-offset: 2px;
+    }
+
+    .embed-refresh-btn[disabled] {
+      opacity: 0.6;
+      cursor: progress;
+    }
+
+    @media (max-width: 768px) {
+      .embed-refresh {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 8px;
+      }
+      .embed-refresh-hint {
+        text-align: center;
+      }
+    }
+
     /* ── Role-model cards ── */
     .role-models-people {
       display: flex;
@@ -960,6 +1010,10 @@
     <div class="card" id="directory-embed">
       <h2 class="sec-title mb-24">DeafHive Community Directory</h2>
       <iframe class="embed-frame" src="https://leola31663.softr.app/ai-block/share/5338c0ab-9af7-4b06-ba47-e74ee5a0544b/fe96f9de-0fed-4be8-a3c6-4ef6a5d57dc2" loading="lazy" title="DeafHive Community Directory" width="100%" height="1000" frameborder="0"></iframe>
+      <div class="embed-refresh">
+        <span class="embed-refresh-hint">Images not loading? Try refreshing.</span>
+        <button type="button" class="embed-refresh-btn" aria-label="Refresh the Community Directory">Refresh</button>
+      </div>
     </div>
 
   </div><!-- /page-wrap -->
@@ -969,6 +1023,10 @@
     <div class="card" id="events">
       <h2 class="sec-title mb-24">BSL Events &amp; Community Video Archive</h2>
       <iframe class="embed-frame" src="https://leola31663.softr.app/ai-block/share/5338c0ab-9af7-4b06-ba47-e74ee5a0544b/ddd453cd-54f8-4a29-ac35-f7e6ace97161" loading="lazy" title="BSL Events &amp; Community Video Archive" width="100%" height="1000" frameborder="0"></iframe>
+      <div class="embed-refresh">
+        <span class="embed-refresh-hint">Images not loading? Try refreshing.</span>
+        <button type="button" class="embed-refresh-btn" aria-label="Refresh the BSL Events &amp; Community Video Archive">Refresh</button>
+      </div>
     </div>
   </div>
 
@@ -1222,6 +1280,25 @@
         if (event.key === 'Escape' && videoModal && videoModal.classList.contains('is-open')) {
           closeVideoModal();
         }
+      });
+
+      // Refresh the Softr iframes when the user clicks the per-card Refresh button.
+      // Useful when Airtable attachment URLs cached by Softr have expired and images break.
+      document.addEventListener('click', function (event) {
+        const btn = event.target.closest('.embed-refresh-btn');
+        if (!btn) return;
+        const card = btn.closest('.card');
+        const iframe = card ? card.querySelector('iframe') : null;
+        if (!iframe) return;
+        const original = btn.textContent;
+        btn.disabled = true;
+        btn.textContent = 'Refreshing…';
+        // Assigning src to itself forces a full reload of the iframe contents.
+        iframe.src = iframe.src;
+        window.setTimeout(function () {
+          btn.disabled = false;
+          btn.textContent = original;
+        }, 1500);
       });
 
     }());

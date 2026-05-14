@@ -169,7 +169,17 @@ The 4 inner sections (What is, Why, What you'll find, Help us build) all follow 
 
 **The hero card is intentionally different** — keeps its h1 + tagline + paragraph + CTAs left, video right. Mobile stacks text-then-video. The hero is the page intro, not a content section.
 
-### 5. Accessibility decisions
+### 5. Softr iframe refresh affordance
+
+Each Softr iframe (Community Directory, BSL Events Archive) is followed by a small `.embed-refresh` block:
+- `.embed-refresh-hint` — italic grey "Images not loading? Try refreshing."
+- `.embed-refresh-btn` — yellow Refresh button
+
+**Why it exists**: Softr pulls images from Airtable attachment URLs, which Airtable **rotates every ~2 hours** (signed URLs that expire). Softr caches those URLs; once they expire, every cached URL 404s and images break inside the iframe. There is no Softr setting to fix this from our side (verified against the Softr community — it's a well-known unsolved issue). The proper fix is upstream (Air CDN proxy, Cloudinary + Zapier sync, or hosting images in Softr's asset library instead of Airtable). Until that's done, the Refresh button lets the user force-reload just the iframe (`iframe.src = iframe.src`), which makes Softr re-fetch fresh signed URLs from Airtable.
+
+**How it's wired**: a delegated click handler at the bottom of the IIFE matches `.embed-refresh-btn`, finds the iframe inside the same `.card`, reloads it, disables the button and shows "Refreshing…" for 1.5s, then restores. No external state.
+
+### 6. Accessibility decisions
 
 | Concern | Decision |
 |---|---|
@@ -183,7 +193,7 @@ The 4 inner sections (What is, Why, What you'll find, Help us build) all follow 
 | Softr iframes | Both have descriptive `title` attributes. |
 | Form / contact | None on the site. If we add one, it needs explicit `<label for>`s and a visible focus state. |
 
-### 6. Mobile breakpoint
+### 7. Mobile breakpoint
 
 One breakpoint, **`max-width: 768px`**, handled by a single `@media` block at the bottom of the CSS. What changes:
 - Nav becomes a hamburger (`.nav-toggle` shown, `.nav-links` hidden until `.is-open`)
@@ -196,7 +206,7 @@ One breakpoint, **`max-width: 768px`**, handled by a single `@media` block at th
 
 If the breakpoint moves, change it in this one place.
 
-### 7. Audit outcomes — what each round fixed
+### 8. Audit outcomes — what each round fixed
 
 The site went through three audit passes. Each fixed a real metric, so don't accidentally undo these:
 
