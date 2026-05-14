@@ -79,6 +79,149 @@ All YouTube videos use the **facade pattern**: a `<button class="video-facade" d
 
 Bullets across the site use a plain `•` (navy, bold) — set via three `::before` rules: `.bullet-list li`, `.find-item`, `.archive-bullets li`. Keep them consistent if you add new lists.
 
+## Architecture & decisions
+
+This section explains the *why* behind the patterns in `index.html`. Read before changing video markup, modal behaviour, the hex background, or section layout — otherwise it's easy to undo a deliberate trade-off.
+
+### 1. YouTube facade pattern (click-to-play)
+
+Every video on the page is a `<button class="video-facade">` showing a static thumbnail + play button. Clicking it swaps the button for an autoplay iframe.
+
+**Why**:
+- Hides YouTube's pre-play branding (avatar, channel name, "Watch on YouTube"). With 6 videos on one page the unstyled iframes looked very cluttered.
+- No YouTube JS / CSS / iframe loads until the user opts in — big first-paint perf win.
+- Privacy-respecting: no YouTube tracking until the click.
+
+**How**:
+- Each facade carries `data-id` (YT video ID) and `data-title`.
+- The `<img>` uses `https://i.ytimg.com/vi/<ID>/hqdefault.jpg`. We deliberately don't use `maxresdefault` — YouTube silently returns a 120×90 placeholder for videos that don't have it, and the placeholder has a 200 status so `onerror` doesn't fire. `hqdefault.jpg` is universal.
+- The play icon is a single `<symbol id="yt-play">` defined once at the top of `<body>`. Each facade references it with `<svg><use href="#yt-play"/></svg>`. Saves ~5 KB vs. 8 inline copies.
+- Hover/focus recolour uses CSS custom properties (`--yt-play-bg`, `--yt-play-bg-opacity`) on `.video-facade-play` — direct `path` selectors don't reach into the `<use>` shadow DOM, but CSS variables cascade in.
+- A single document-level click handler (`document.addEventListener('click', …)`) catches any facade click, builds the iframe with `?autoplay=1&rel=0`, and `replaceWith`s the button. If the facade lives inside a `.role-card`, it opens the lightbox instead (with bio panel populated).
+
+**To swap a video**: change `data-id`, `data-title`, the `<img src>`, and the `aria-label`. Nothing else.
+
+### 2. Video lightbox modal
+
+Used by role-model cards. Clicking the facade opens a centred modal containing the autoplay iframe **and** the person's name + full bio. Keeps the page text-light while still letting visitors read the full story.
+
+**Markup** (at the bottom of `<body>`):
+```
+#video-modal
+  .video-modal-content     (flex column, 50vw desktop / 90vw mobile)
+    .video-modal-close     (×, positioned outside the frame)
+    .video-modal-frame     (receives the iframe)
+    .video-modal-details[hidden]
+      .video-modal-name    (h3)
+      .video-modal-bio     (paragraphs)
+```
+
+**Behaviour** (`openVideoModal(id, title, invoker)` in the IIFE):
+- Builds the autoplay iframe and inserts into `.video-modal-frame`.
+- Reads `invoker.closest('.role-card')`. If found, copies the role-card's `.role-card-name` text and the hidden `.role-card-bio` HTML into the details panel. If not (overview videos), hides the panel.
+- Sets `inert` on every direct child of `<body>` except the modal. This is the focus trap — no need for keydown-based tab cycling.
+- Remembers the invoker as `lastFocusedFacade` so close returns focus there.
+
+**Close routes** (all wired): Esc key, × button, click on the backdrop (`event.target === videoModal`).
+
+**Why this shape**:
+- `inert` is the modern focus-lock primitive; works in every browser we care about and replaces 30+ lines of manual focus-trap code.
+- Bio panel uses the `hidden` attribute, not a class — simpler and semantically correct.
+- Details panel has `max-height: 35vh; overflow-y: auto` so the modal never exceeds the viewport even with a long bio.
+
+### 3. Hex background pattern (static SVG, not generated)
+
+The navy background carries a faint rotated hex-line pattern. **Was** JS-generated on every load + every resize (~500 `<polygon>` DOM nodes). **Now** a static inline SVG that the browser tiles itself.
+
+**Geometry**:
+- A pointy-top hex with side `s = 34` has width `√3·s ≈ 58.95` and vertical row-step `1.5·s = 51`.
+- The `<pattern id="hex-pattern">` tile is `59 × 102` (one column wide, two row-steps tall — the vertical period because adjacent rows are offset half a column horizontally).
+- Three polygons inside the tile:
+  - centred at `(29.5, 17)` — top row hex
+  - centred at `(0, 68)` — bottom row, straddles the left edge (left half wraps into the previous tile)
+  - centred at `(59, 68)` — bottom row, straddles the right edge (right half wraps into the next tile)
+- The browser tiles the pattern. We draw **3 polygons** that tessellate, not 500.
+
+**Layer styling** (`#hex-layer`):
+- `position: fixed; inset: -12vmax; z-index: -1; pointer-events: none`
+- `transform: rotate(-8deg) scale(1.08)` — the `-12vmax` padding plus the scale means rotation never exposes a page edge.
+- Polygons use `vector-effect: non-scaling-stroke` so the stroke stays 2.2px regardless of the 1.08 scale.
+- Under `prefers-reduced-motion: reduce` the transform becomes `none` (still tiled, no rotation).
+
+**If you change `HEX_SIDE`**: recompute the polygons. Tile width = `√3 · side`, height = `3 · side`. Hex polygon points are `(cx + side·cos θ, cy + side·sin θ)` for `θ ∈ {-30°, 30°, 90°, 150°, 210°, 270°}`.
+
+### 4. Heading / Video / Text layout (inner sections)
+
+The 4 inner sections (What is, Why, What you'll find, Help us build) all follow this DOM order:
+
+```
+.card
+  h2.sec-title           ← spans full card width
+  .two-col
+    .vid-box.side-vid    ← video (left on desktop)
+    .col-text            ← bullets / paragraphs (right on desktop)
+```
+
+**Mobile** (≤768px): `.two-col` becomes a column; sections stack as **heading → video → text** consistently.
+**Desktop** (>768px): heading on top, video left + text right side-by-side.
+
+**Why**: earlier the headings sat inside `.col-text`, which alternated position (some sections had col-text on the left, some on the right). On mobile this caused some sections to read "video → heading → text" — the heading was buried below the video, disorienting and bad for screen-reader navigation. Pulling h2 out anchors every section to its heading.
+
+**The hero card is intentionally different** — keeps its h1 + tagline + paragraph + CTAs left, video right. Mobile stacks text-then-video. The hero is the page intro, not a content section.
+
+### 5. Accessibility decisions
+
+| Concern | Decision |
+|---|---|
+| Page lang | `<html lang="en-GB">` (UK audience) |
+| Keyboard skip | `.skip-link` at top of body — `href="#about"`, slides into view on focus, navy outline |
+| Reduced motion | `@media (prefers-reduced-motion: reduce)` disables hex rotation, facade hover transforms, scroll-behavior:smooth. The JS `scrollSectionIntoView` also switches to `behavior:'auto'` when `matchMedia('(prefers-reduced-motion: reduce)').matches`. |
+| Modal focus | `inert` on every body sibling of the modal while open; focus returned to invoking facade on close. |
+| Modal close routes | Esc key, × button, backdrop click — all three implemented. |
+| Decorative SVGs | `aria-hidden="true"` on the hex layer container and the play-button `<symbol>` block. |
+| Video iframes | All have `title` attributes. `<source>` not yet — captions live on YouTube. |
+| Softr iframes | Both have descriptive `title` attributes. |
+| Form / contact | None on the site. If we add one, it needs explicit `<label for>`s and a visible focus state. |
+
+### 6. Mobile breakpoint
+
+One breakpoint, **`max-width: 768px`**, handled by a single `@media` block at the bottom of the CSS. What changes:
+- Nav becomes a hamburger (`.nav-toggle` shown, `.nav-links` hidden until `.is-open`)
+- Cards: `flex-direction: column` on `.hero-card`, `.two-col`, `.archive-card`
+- `.hero-vid` / `.side-vid` / `.archive-vid`: `width: 100% !important`
+- `.hero-text h1` drops to 2rem
+- `.find-grid` collapses to 1 column
+- `.role-card` takes full width
+- `.video-modal-content` widens to 90vw
+
+If the breakpoint moves, change it in this one place.
+
+### 7. Audit outcomes — what each round fixed
+
+The site went through three audit passes. Each fixed a real metric, so don't accidentally undo these:
+
+**P0 — first-paint perf + SEO essentials** (commit `dc2e2a0`)
+- `loading="lazy"` on both Softr iframes — biggest perf win; defers ~MB each of Softr/React runtime.
+- Full meta set: description, Open Graph (later + image), Twitter card, canonical, theme-color, inline-SVG favicon.
+- Preconnect for `i.ytimg.com`, `youtube-nocookie.com`, `fonts.gstatic.com`.
+- All `href="#"` placeholders wired or removed (logo → #about, hero CTAs → real sections, footer Terms/Privacy gone).
+- 5 unused CSS classes + duplicate `#hex-layer` rule deleted.
+
+**P1 — DOM weight + a11y** (commit `71ed198`)
+- Hex SVG: 486 polygon nodes → 3 polygons in a `<pattern>`; resize-rebuild JS deleted.
+- 8 inline play SVGs → 1 `<symbol id="yt-play">` + 8 `<use>` references.
+- Skip-to-content link.
+- `prefers-reduced-motion` block.
+- Modal `inert` focus lock.
+- `<html lang="en-GB">`.
+- Dead `.vid-box svg { opacity: 0.7 }` rule deleted.
+
+**P2 — structured data + OG image** (commits `5bdd8a9`, `268a40a`)
+- JSON-LD `Organization` block. Helps Google's Knowledge Panel + AI tools identify "DeafHive" as a named entity.
+- 1200×630 OG image (`og.png`, rendered from `og.svg` via `rsvg-convert`). Consistent on-brand preview cards in every platform that unfurls links.
+
+**Net effect**: 673 DOM nodes → 202; 8 inline play SVGs → 1 symbol; 2 eager iframes → lazy; ~50 lines of runtime JS removed.
+
 ## Colours and styling (CSS variables, near the top of the file)
 
 ```
