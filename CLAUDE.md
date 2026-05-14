@@ -169,18 +169,23 @@ The 4 inner sections (What is, Why, What you'll find, Help us build) all follow 
 
 **The hero card is intentionally different** — keeps its h1 + tagline + paragraph + CTAs left, video right. Mobile stacks text-then-video. The hero is the page intro, not a content section.
 
-### 5. Softr iframes — backed by Softr's native database
+### 5. Softr iframes — mixed data sources
 
-The two Softr iframes (Community Directory, BSL Events Archive) render content from **Softr's own native database**, not from Airtable. From this repo's point of view nothing changed (same iframe URLs); the change was on the Softr side.
+The two Softr iframes look identical from this repo (both are Softr `<iframe>` embeds with `loading="lazy"`), but they pull from **different data sources**:
 
-**Why this matters**:
-- No more Airtable PAT / OAuth dependency for these embeds — no "Datasource not found" errors.
-- No more Airtable rate-limit cascades (5 req/s per base, monthly call ceiling).
-- No more expiring attachment URLs — Softr DB stores files in its own asset storage with permanent URLs. The broken-image-thumbnail problem is resolved at the source.
+| Iframe | Section | Data source | Broken-image risk |
+|---|---|---|---|
+| `#directory-embed` | Community Directory | **Softr native database** | None — Softr DB hosts its own files with permanent URLs |
+| `#events` | BSL Events & Community Video Archive | **Airtable** (live) | Yes — Airtable signed URLs rotate every ~2 hours and Softr's cache can hold expired ones |
 
-**History worth keeping in mind**: earlier the Softr blocks pulled from an Airtable base. Airtable rotates signed attachment URLs every ~2 hours and the Softr cache held expired URLs, so images broke periodically inside the iframes. A "Refresh" button and a caching note were tried on this site but both were removed — they couldn't fix a server-side cache and only added noise. The eventual upstream fix (migrating from Airtable to Softr DB) is what actually solved it.
+**Why the directory was migrated**: it used to be Airtable too. Symptoms in mid-May 2026: broken thumbnails, "Request limit exceeded", "Datasource not found". Mark exported the directory tables from Airtable, imported the CSVs into a new Softr database, and re-uploaded the images to Softr DB so the URLs are permanent. The directory's been clean since.
 
-**If the data source ever changes again** (e.g. someone reconnects Airtable): the same broken-image symptom can return. The proper fix remains *upstream* — keep using Softr DB, or route Airtable through Air CDN / Cloudinary. Don't add a Refresh button or warning text to this site.
+**The events archive is still Airtable-backed**. If you see broken-image icons inside that iframe, the cause is upstream — Airtable signed-URL expiry — not anything in this repo. There is no Softr setting that fixes it. The proper fixes (any one of these) live outside `index.html`:
+- Migrate the events table to Softr DB too (re-upload event images so they get permanent Softr URLs)
+- Route Airtable through Air CDN (paid proxy that converts signed URLs to permanent ones)
+- Replace Airtable attachment fields with permanent URLs synced from Cloudinary / S3 / Google Drive (via Zapier or Make)
+
+**Do not** add a Refresh button or a caching note to either iframe section. Both were tried; both were misleading because the cache lives on Softr's server. The Refresh button looked like a fix but wasn't; the note added noise without changing anything actionable.
 
 ### 6. Accessibility decisions
 

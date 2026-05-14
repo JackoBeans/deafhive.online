@@ -23,7 +23,9 @@ DeafHive is a single-page information and inclusion site for the Deaf community.
 - **Static HTML, vanilla CSS, vanilla JS.** Custom CSS variables for the navy + yellow palette. `Raleway` from Google Fonts.
 - **Hex pattern background** — a single inline `<svg><pattern>` definition tiled by the browser. No JS, no per-resize work.
 - **YouTube embeds** — privacy-respecting `youtube-nocookie.com` iframes, lazy-loaded behind a click-to-play facade.
-- **Softr embeds** — two `iframe` blocks for the Community Directory and Events Archive. Content is managed in Softr's native database; the site just renders the iframes.
+- **Softr embeds** — two `iframe` blocks for the Community Directory and Events Archive. The site just renders the iframes; content is managed in Softr. Note: the two embeds use **different data sources**:
+  - **Community Directory** → Softr's native database (images uploaded to Softr; permanent URLs).
+  - **BSL Events & Community Video Archive** → Airtable (live data source). Subject to Airtable's signed-URL expiry and request limits, which can break images inside that iframe.
 
 ## Run locally
 
@@ -63,6 +65,7 @@ Live on **GitHub Pages** at `https://deafhive.online/` (with `www.deafhive.onlin
 - ✅ David role-model card with bio-in-modal pattern (ready for more role models)
 - ✅ Click-to-play facades — pre-play YouTube clutter hidden, page loads fast
 - ✅ Lazy-loaded Softr iframes — first paint isn't blocked
-- ✅ Softr embeds now backed by Softr's native database (no more Airtable rate-limit / expiring-image issues)
+- ✅ Community Directory migrated from Airtable to Softr's native database (no more rate-limit / expiring-image issues on that iframe)
+- 🟡 Events Archive still reads from Airtable — broken-image symptoms can still appear there until it's also migrated or routed through Air CDN / Cloudinary
 - ✅ Open Graph + Twitter card with on-brand 1200×630 image
 - ✅ Accessibility: skip link, `prefers-reduced-motion`, modal focus lock, `lang="en-GB"`
