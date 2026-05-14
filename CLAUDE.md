@@ -169,14 +169,22 @@ The 4 inner sections (What is, Why, What you'll find, Help us build) all follow 
 
 **The hero card is intentionally different** — keeps its h1 + tagline + paragraph + CTAs left, video right. Mobile stacks text-then-video. The hero is the page intro, not a content section.
 
-### 5. Softr iframe caching note
+### 5. Softr iframes — no on-page note about broken images
 
-Each Softr iframe (Community Directory, BSL Events Archive) is followed by a single italic line of grey text (`.embed-note`):
-> "Some images may not display — content is cached upstream and refreshes automatically every couple of hours."
+The two Softr iframes (Community Directory, BSL Events Archive) are rendered bare — no per-iframe affordance about caching or broken images.
 
-**Why this exact shape**: Softr pulls images from Airtable attachment URLs, which Airtable rotates every ~2 hours (signed URLs that expire). Softr caches those URLs server-side; once they expire, every cached URL 404s and images break inside the iframe. There is no Softr setting to fix this from our side — verified against the Softr community, it's a well-known unsolved issue. The proper fix lives upstream (Air CDN proxy, Cloudinary + Zapier sync, or hosting images in Softr's own asset library instead of Airtable).
+**History**: earlier iterations had (a) a Refresh button that called `iframe.src = iframe.src` and (b) a small italic note explaining the upstream caching. Both were removed:
+- The Refresh button looked like a fix but wasn't — Softr's data layer caches server-side, so the iframe reload re-fetches the same stale Airtable URLs.
+- The italic note added page noise without helping anything actionable.
 
-**Why not a Refresh button**: an earlier version of this section had a "Refresh" button that called `iframe.src = iframe.src`. It looked like a fix but didn't actually work — Softr's data layer caches server-side, so the iframe reload re-fetches the same stale Airtable URLs. False hope. The honest note is shorter and doesn't mislead.
+**The underlying issue still exists**: Softr pulls images from Airtable attachment URLs which Airtable rotates every ~2 hours (signed URLs that expire). When Softr's cache holds expired URLs, images 404 inside the iframe. There is no Softr-side setting to fix this — it's a known unsolved issue.
+
+**The proper fix is upstream and outside this repo**:
+- Air CDN proxy (converts Airtable URLs to permanent ones)
+- Cloudinary / Google Drive / S3 + Zapier or Make sync (replaces Airtable attachments with permanent URLs)
+- Migrate the data to Softr's native database (CSV export from Airtable + CSV import to Softr DB, then manually re-upload images so they live in Softr's own asset storage)
+
+Do not re-add a Refresh button or note here unless the issue is fixed upstream first.
 
 ### 6. Accessibility decisions
 
