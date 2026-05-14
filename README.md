@@ -2,7 +2,7 @@
 
 A central online space for the Deaf community, bringing together everything from local events to life-changing support.
 
-- **Live site:** https://deafhive.online *(domain registered, deploy pending)*
+- **Live site:** https://deafhive.online
 - **Repo:** https://github.com/JackoBeans/deafhive.online
 
 ---
@@ -21,9 +21,9 @@ DeafHive is a single-page information and inclusion site for the Deaf community.
 
 - **One file** — `index.html`. No framework, no build step.
 - **Static HTML, vanilla CSS, vanilla JS.** Custom CSS variables for the navy + yellow palette. `Raleway` from Google Fonts.
-- **Hex pattern background** — generated client-side as inline SVG (see the script at the bottom of the HTML).
-- **YouTube embeds** — privacy-respecting `youtube-nocookie.com` iframes.
-- **Softr embeds** — two `iframe` blocks for the Community Directory and Events Archive. Content is managed on Softr; the site just renders the iframes.
+- **Hex pattern background** — a single inline `<svg><pattern>` definition tiled by the browser. No JS, no per-resize work.
+- **YouTube embeds** — privacy-respecting `youtube-nocookie.com` iframes, lazy-loaded behind a click-to-play facade.
+- **Softr embeds** — two `iframe` blocks for the Community Directory and Events Archive. Content is managed in Softr's native database; the site just renders the iframes.
 
 ## Run locally
 
@@ -43,22 +43,26 @@ Everything lives in `index.html`. Sections, in order:
 2. **Hero** — Welcome video + tagline + CTAs
 3. **What is DeafHive?** — three-point intro with video
 4. **Why We Created DeafHive?** — context + video
-5. **What You Will Find on DeafHive** — four categories
+5. **What You Will Find on DeafHive** — four categories + video
 6. **Community Directory** — Softr iframe
 7. **BSL Events & Community Video Archive** — Softr iframe
-8. **See It. Believe It. Be It.** — Role Models grid (placeholder thumbnails for now)
+8. **See It. Believe It. Be It.** — overview video + role-model card (David)
 9. **Help Us Build DeafHive** — invitation + video
 10. **Footer**
 
-To swap a video, find the `<iframe>` for that section and change the YouTube ID in the `src` URL. To change copy, edit the HTML directly.
+To swap a video, find the `<button class="video-facade">` for that section and change the `data-id`, `data-title`, `<img src>` and `aria-label`. To change copy, edit the HTML directly.
 
 ## Deployment
 
-Planned: **Cloudflare Pages** connected to this repo, with `deafhive.online` as the custom domain. Pushes to `main` auto-deploy. *(Not wired up yet.)*
+Live on **GitHub Pages** at `https://deafhive.online/` (with `www.deafhive.online` redirecting). Pushes to `main` auto-deploy via the default Pages build. HTTPS is enforced.
 
 ## Project status
 
+- ✅ Custom domain `deafhive.online` live with HTTPS
 - ✅ All six BSL videos wired in (Welcome, What is, Why, What You Will Find, See It Believe It Be It, Help Us Build)
-- ✅ Click-to-play facades — pre-play YouTube clutter hidden
-- ✅ Live preview on GitHub Pages: https://jackobeans.github.io/deafhive.online/
-- 🟡 Custom domain `deafhive.online` — not yet pointed at a host
+- ✅ David role-model card with bio-in-modal pattern (ready for more role models)
+- ✅ Click-to-play facades — pre-play YouTube clutter hidden, page loads fast
+- ✅ Lazy-loaded Softr iframes — first paint isn't blocked
+- ✅ Softr embeds now backed by Softr's native database (no more Airtable rate-limit / expiring-image issues)
+- ✅ Open Graph + Twitter card with on-brand 1200×630 image
+- ✅ Accessibility: skip link, `prefers-reduced-motion`, modal focus lock, `lang="en-GB"`

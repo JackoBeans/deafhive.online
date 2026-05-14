@@ -169,22 +169,18 @@ The 4 inner sections (What is, Why, What you'll find, Help us build) all follow 
 
 **The hero card is intentionally different** — keeps its h1 + tagline + paragraph + CTAs left, video right. Mobile stacks text-then-video. The hero is the page intro, not a content section.
 
-### 5. Softr iframes — no on-page note about broken images
+### 5. Softr iframes — backed by Softr's native database
 
-The two Softr iframes (Community Directory, BSL Events Archive) are rendered bare — no per-iframe affordance about caching or broken images.
+The two Softr iframes (Community Directory, BSL Events Archive) render content from **Softr's own native database**, not from Airtable. From this repo's point of view nothing changed (same iframe URLs); the change was on the Softr side.
 
-**History**: earlier iterations had (a) a Refresh button that called `iframe.src = iframe.src` and (b) a small italic note explaining the upstream caching. Both were removed:
-- The Refresh button looked like a fix but wasn't — Softr's data layer caches server-side, so the iframe reload re-fetches the same stale Airtable URLs.
-- The italic note added page noise without helping anything actionable.
+**Why this matters**:
+- No more Airtable PAT / OAuth dependency for these embeds — no "Datasource not found" errors.
+- No more Airtable rate-limit cascades (5 req/s per base, monthly call ceiling).
+- No more expiring attachment URLs — Softr DB stores files in its own asset storage with permanent URLs. The broken-image-thumbnail problem is resolved at the source.
 
-**The underlying issue still exists**: Softr pulls images from Airtable attachment URLs which Airtable rotates every ~2 hours (signed URLs that expire). When Softr's cache holds expired URLs, images 404 inside the iframe. There is no Softr-side setting to fix this — it's a known unsolved issue.
+**History worth keeping in mind**: earlier the Softr blocks pulled from an Airtable base. Airtable rotates signed attachment URLs every ~2 hours and the Softr cache held expired URLs, so images broke periodically inside the iframes. A "Refresh" button and a caching note were tried on this site but both were removed — they couldn't fix a server-side cache and only added noise. The eventual upstream fix (migrating from Airtable to Softr DB) is what actually solved it.
 
-**The proper fix is upstream and outside this repo**:
-- Air CDN proxy (converts Airtable URLs to permanent ones)
-- Cloudinary / Google Drive / S3 + Zapier or Make sync (replaces Airtable attachments with permanent URLs)
-- Migrate the data to Softr's native database (CSV export from Airtable + CSV import to Softr DB, then manually re-upload images so they live in Softr's own asset storage)
-
-Do not re-add a Refresh button or note here unless the issue is fixed upstream first.
+**If the data source ever changes again** (e.g. someone reconnects Airtable): the same broken-image symptom can return. The proper fix remains *upstream* — keep using Softr DB, or route Airtable through Air CDN / Cloudinary. Don't add a Refresh button or warning text to this site.
 
 ### 6. Accessibility decisions
 
