@@ -169,15 +169,14 @@ The 4 inner sections (What is, Why, What you'll find, Help us build) all follow 
 
 **The hero card is intentionally different** — keeps its h1 + tagline + paragraph + CTAs left, video right. Mobile stacks text-then-video. The hero is the page intro, not a content section.
 
-### 5. Softr iframe refresh affordance
+### 5. Softr iframe caching note
 
-Each Softr iframe (Community Directory, BSL Events Archive) is followed by a small `.embed-refresh` block:
-- `.embed-refresh-hint` — italic grey "Images not loading? Try refreshing."
-- `.embed-refresh-btn` — yellow Refresh button
+Each Softr iframe (Community Directory, BSL Events Archive) is followed by a single italic line of grey text (`.embed-note`):
+> "Some images may not display — content is cached upstream and refreshes automatically every couple of hours."
 
-**Why it exists**: Softr pulls images from Airtable attachment URLs, which Airtable **rotates every ~2 hours** (signed URLs that expire). Softr caches those URLs; once they expire, every cached URL 404s and images break inside the iframe. There is no Softr setting to fix this from our side (verified against the Softr community — it's a well-known unsolved issue). The proper fix is upstream (Air CDN proxy, Cloudinary + Zapier sync, or hosting images in Softr's asset library instead of Airtable). Until that's done, the Refresh button lets the user force-reload just the iframe (`iframe.src = iframe.src`), which makes Softr re-fetch fresh signed URLs from Airtable.
+**Why this exact shape**: Softr pulls images from Airtable attachment URLs, which Airtable rotates every ~2 hours (signed URLs that expire). Softr caches those URLs server-side; once they expire, every cached URL 404s and images break inside the iframe. There is no Softr setting to fix this from our side — verified against the Softr community, it's a well-known unsolved issue. The proper fix lives upstream (Air CDN proxy, Cloudinary + Zapier sync, or hosting images in Softr's own asset library instead of Airtable).
 
-**How it's wired**: a delegated click handler at the bottom of the IIFE matches `.embed-refresh-btn`, finds the iframe inside the same `.card`, reloads it, disables the button and shows "Refreshing…" for 1.5s, then restores. No external state.
+**Why not a Refresh button**: an earlier version of this section had a "Refresh" button that called `iframe.src = iframe.src`. It looked like a fix but didn't actually work — Softr's data layer caches server-side, so the iframe reload re-fetches the same stale Airtable URLs. False hope. The honest note is shorter and doesn't mislead.
 
 ### 6. Accessibility decisions
 
